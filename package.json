@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@reduxjs/toolkit": "^1.8.1",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.2.0",
     "@testing-library/user-event": "^13.5.0",
@@ -11,13 +12,13 @@
     "@types/react": "^18.0.9",
     "@types/react-dom": "^18.0.4",
     "axios": "^0.27.2",
-    "prettier": "^2.6.2",
     "primeflex": "^3.2.0",
     "primeicons": "^5.0.0",
     "primereact": "^8.1.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-hook-form": "^7.31.1",
+    "react-query": "^3.39.0",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "sass": "^1.51.0",
@@ -33,7 +34,8 @@
   "eslintConfig": {
     "extends": [
       "react-app",
-      "react-app/jest"
+      "react-app/jest",
+      "prettier"
     ]
   },
   "browserslist": {
@@ -48,5 +50,9 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:8000"
+  "devDependencies": {
+    "eslint-config-prettier": "^8.5.0",
+    "http-proxy-middleware": "^2.0.6",
+    "prettier": "^2.6.2"
+  }
 }
