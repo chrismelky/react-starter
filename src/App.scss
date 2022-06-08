@@ -1,7 +1,7 @@
-@import "variables.scss";
+@import 'variables.scss';
 
 html {
-  font-size: 16px; 
+  font-size: 16px;
 }
 
 html,
@@ -11,30 +11,31 @@ body {
 
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
   font-size: 12px;
   color: #202124;
 }
 
 .p-sidebar-left .p-sidebar {
   /* box-shadow:  0 11px 15px -7px rgb(0 0 0 / 20%), 0 24px 38px 3px rgb(0 0 0 / 14%), 0 9px 46px 8px rgb(0 0 0 / 12%); */
-  box-shadow:  0 3px 1px -2px rgb(0 0 0 / 20%), 0 2px 2px 0px rgb(0 0 0 / 14%), 0 1px 5px 0px rgb(0 0 0 / 12%);
+  box-shadow: 0 3px 1px -2px rgb(0 0 0 / 20%), 0 2px 2px 0px rgb(0 0 0 / 14%),
+    0 1px 5px 0px rgb(0 0 0 / 12%);
   width: 256px;
   background-color: #051e34;
   color: #fff;
 }
 
 .sidebar {
-  width:21rem;
+  width: 21rem;
   overflow: hidden;
   transform: translate3d(0px, 0px, 0px);
-  transition: all .3s;
+  transition: all 0.3s;
 }
 .p-sidebar .p-sidebar-content {
   padding: 0;
- }
+}
 .p-sidebar-left .p-sidebar-enter {
-    box-shadow: none !important;
+  box-shadow: none !important;
 }
 
 .p-component {
@@ -92,10 +93,10 @@ body {
     order: 1; // to be the first item on right side.
     font-weight: 400;
     font-size: 14px;
-   }
-   .p-menuitem-text {
+  }
+  .p-menuitem-text {
     flex-grow: 1; // to fill the whole space and push the icon to the end
-   }
+  }
 }
 
 .sidenav-item {
@@ -126,7 +127,6 @@ body {
       line-height: 18px;
       font-weight: 400;
       overflow-x: hidden;
-
     }
 
     .p-menuitem-text:hover {
@@ -169,17 +169,21 @@ body {
 
     .p-highlight {
       background-color: #132d49;
-      border-bottom: 1px solid rgba(255, 255, 255, .1);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .p-panelmenu-panel {
-      border-bottom: 1px solid rgba(255, 255, 255, .1);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .p-panelmenu-panel .p-panelmenu-header .p-panelmenu-header-link:focus,
     .p-panelmenu-panel .p-panelmenu-header .p-panelmenu-header-link:hover,
-    .p-panelmenu-panel .p-panelmenu-header:not(.p-highlight) .p-panelmenu-header-link:hover,
-    .p-panelmenu-panel .p-panelmenu-header:not(.p-highlight) .p-panelmenu-header-link:focus {
+    .p-panelmenu-panel
+      .p-panelmenu-header:not(.p-highlight)
+      .p-panelmenu-header-link:hover,
+    .p-panelmenu-panel
+      .p-panelmenu-header:not(.p-highlight)
+      .p-panelmenu-header-link:focus {
       background-color: #132d49;
     }
 
@@ -207,6 +211,19 @@ body {
     .p-panelmenu-panel {
       box-shadow: none;
     }
-
   }
+}
+.p-paginator {
+  .p-button:disabled {
+    background-color: transparent !important;
+  }
+}
+
+td.actions {
+  width: 100px;
+  text-align: right;
+}
+
+.p-paginator .p-paginator-current {
+  margin-left: auto;
 }

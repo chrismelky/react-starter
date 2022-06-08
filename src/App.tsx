@@ -11,10 +11,15 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { Route, Routes } from 'react-router-dom';
 import { AuthProvider } from './hooks/useAuth';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 function App() {
-  console.log('App loaded');
   return (
     <>
       <QueryClientProvider client={queryClient}>

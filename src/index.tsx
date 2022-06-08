@@ -3,18 +3,22 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { BrowserRouter } from 'react-router-dom';
 
 axios.interceptors.response.use(
   (response) => {
     console.log(response);
-    return response;
+    return response.data;
   },
-  (error) => {
-    return Promise.reject(error);
+  (error: AxiosError) => {
+    if (error.response?.status === 401) {
+      //redisrect to login
+    }
+    return Promise.reject(error.response?.data);
   },
 );
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
 );

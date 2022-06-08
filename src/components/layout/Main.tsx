@@ -6,9 +6,10 @@ import { useAuth } from '../../hooks/useAuth';
 import { AppBar } from './AppBar';
 import { AppDrawer } from './AppDrawer';
 
-const UserList = React.lazy(() => import('../../components/user/UserList'));
+const UserList = React.lazy(() => import('../user/user-list'));
 
 export default function Main() {
+  console.log('main rendered');
   const { user } = useAuth();
 
   const [visible, setVisible] = useState(true);
@@ -17,17 +18,13 @@ export default function Main() {
     return <div>Home</div>;
   };
 
-  // if (!user) {
-  //   return <Navigate to="/login" />;
-  // }
-
   return (
     <>
-      <div className="flex">
-        <AppDrawer setVisible={setVisible} visible={visible} />
+      <div className="flex" style={{ backgroundColor: '#e4e5e6' }}>
+        <AppDrawer setVisible={() => setVisible} visible={visible} />
         <section
           className="flex flex-column flex-grow-1"
-          style={{ backgroundColor: '#e4e5e6' }}>
+          style={{ backgroundColor: '#e4e5e6', height: '100%' }}>
           <AppBar setVisible={setVisible} visible={visible} />
           <div className="flex flex-column p-3">
             <Routes>

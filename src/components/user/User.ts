@@ -1,5 +1,7 @@
 export class User {
-  public first_name?: string | null;
-  public last_name?: string | null;
-  public email?: string | null;
+  public id?: number | null = null;
+  public firstName?: string = '';
+  public lastName?: string = '';
+  public email?: string = '';
+  public roles?: any[] = [];
 }

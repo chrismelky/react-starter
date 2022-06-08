@@ -1,20 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Sidebar } from 'primereact/sidebar';
 import { MenuItem } from 'primereact/menuitem';
 import { classNames } from 'primereact/utils';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { PanelMenu } from 'primereact/panelmenu';
+
 export const AppDrawer = ({ visible, setVisible }: any) => {
+  console.log('drawer rendered');
+
   let navigate = useNavigate();
 
-  const items: MenuItem[] = [
+  const [items, setItems] = useState<MenuItem[]>([
     {
       label: 'Dashboard',
       icon: 'pi pi-pw pi-home',
-      command: () => {
-        navigate('/');
-      },
+      expanded: false,
+      command: () => navigate(''),
+      // template: (item, options) => {
+      //   return (
+      //     /* custom element */
+      //     <Link to="/" className={options.className}>
+      //       <span
+      //         className={classNames(
+      //           options.iconClassName,
+      //           'pi pi-home',
+      //         )}></span>
+      //       <span className={options.labelClassName}>Dashboard</span>
+      //     </Link>
+      //   );
+      // },
     },
     {
       label: 'Setup',
@@ -45,7 +60,7 @@ export const AppDrawer = ({ visible, setVisible }: any) => {
       label: 'Project Data Forms',
       icon: 'pi pi-fw pi-arrow-right',
     },
-  ];
+  ]);
 
   return (
     <>
