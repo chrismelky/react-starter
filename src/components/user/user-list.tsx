@@ -8,20 +8,15 @@ import { UserUpdate } from './user-update';
 import { Card } from 'primereact/card';
 import { useDeleteUser, useFetchUsers } from './user-api';
 import { TableAction } from '../shared/TableAction';
-import { FilterMatchMode, FilterOperator } from 'primereact/api';
 import { User } from './user';
-import { PaginationParam } from '../shared/api';
-
-const stringDefaultFilter = {
-  operator: FilterOperator.AND,
-  constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
-};
-const initialOptionFilters: DataTableFilterMeta = {
-  firstName: stringDefaultFilter,
-  lastName: stringDefaultFilter,
-};
+import { IQueryParams, stringDefaultFilter } from '../../utils/utils';
 
 export default function UserList() {
+  const initialOptionFilters: DataTableFilterMeta = {
+    firstName: stringDefaultFilter,
+    lastName: stringDefaultFilter,
+  };
+
   const [perPageOptions] = useState<number[]>([2, 5, 10]);
 
   const [showCreateOrUpdate, setShowCreateOrUpdate] = useState(false);
@@ -30,22 +25,13 @@ export default function UserList() {
 
   const [optionalFilters, setOptionalFilters] = useState<DataTableFilterMeta>();
 
-  const initFilters = () => {
-    setOptionalFilters({ ...initialOptionFilters });
-  };
-
-  const clearFilters = () => {
-    initFilters();
-  };
-
-  useEffect(() => {
-    initFilters();
-  }, []);
-
-  const [pageParams, setPageParams] = useState<PaginationParam>({
+  const [queryParams, setQueryParams] = useState<IQueryParams>({
     first: 0,
     rows: 10,
     page: 0,
+    optionalFilters: undefined,
+    sortField: undefined,
+    sortOrder: undefined,
   });
 
   const toast = useRef<Toast>(null);
@@ -56,8 +42,24 @@ export default function UserList() {
     refetch,
     data: users,
   } = useFetchUsers({
-    params: pageParams,
+    queryParams,
   });
+
+  const initFilters = () => {
+    setOptionalFilters(initialOptionFilters);
+  };
+
+  const clearFilters = () => {
+    initFilters();
+    setQueryParams({
+      ...queryParams,
+      optionalFilters,
+    });
+  };
+
+  useEffect(() => {
+    initFilters();
+  }, []);
 
   const deteleMutation = useDeleteUser({
     onSuccess: () => {
@@ -94,17 +96,30 @@ export default function UserList() {
   };
 
   const pageChanges = (event: any) => {
-    setPageParams(event);
+    setQueryParams({
+      ...queryParams,
+      page: event.page,
+      first: event.first,
+      rows: event.rows,
+    });
+  };
+
+  const onSort = (event) => {
+    setQueryParams({
+      ...queryParams,
+      sortField: event.sortField,
+      sortOrder: event.sortOrder,
+    });
   };
 
   const onFilter = (event: any) => {
-    console.log(event);
-
-    event['first'] = 0;
-    // setParams({
-    //   ...params,
-    //   ...event,
-    // });
+    if (Object.keys(event.filters).length) {
+      event['first'] = 0;
+      setQueryParams({
+        ...queryParams,
+        optionalFilters: { ...event.filters },
+      });
+    }
   };
 
   const confirmDelete = (user: User) => {
@@ -164,8 +179,8 @@ export default function UserList() {
             size="small"
             lazy
             paginator
-            first={pageParams.first}
-            rows={pageParams.rows}
+            first={queryParams.first}
+            rows={queryParams.rows}
             totalRecords={users?.total}
             onPage={pageChanges}
             filters={optionalFilters}
@@ -175,15 +190,20 @@ export default function UserList() {
             onFilter={onFilter}
             value={users?.data}
             loading={isLoading}
+            onSort={onSort}
+            sortField={queryParams.sortField}
+            sortOrder={queryParams.sortOrder}
             style={{ width: '100%' }}>
             <Column
               filter
+              sortable
               filterPlaceholder="Search by first name"
               field="firstName"
               header="First Name"
             />
             <Column
               filter
+              sortable
               field="lastName"
               filterPlaceholder="Search by last name"
               header="Last Name"

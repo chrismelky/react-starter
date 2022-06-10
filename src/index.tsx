@@ -3,31 +3,39 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import axios, { AxiosError } from 'axios';
 import { BrowserRouter } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { Provider } from 'react-redux';
+import { store } from './config/store';
+import { setupInterceptor } from './utils/utils';
+import { bindActionCreators } from '@reduxjs/toolkit';
+import { logout } from './reducers/authentication';
 
-axios.interceptors.response.use(
-  (response) => {
-    console.log(response);
-    return response.data;
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: false,
+    },
   },
-  (error: AxiosError) => {
-    if (error.response?.status === 401) {
-      //redisrect to login
-    }
-    return Promise.reject(error.response?.data);
-  },
-);
+});
+
+const actions = bindActionCreators({ logout }, store.dispatch);
+setupInterceptor(() => actions.logout());
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
 );
 root.render(
-  <StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </StrictMode>,
+  <QueryClientProvider client={queryClient}>
+    <Provider store={store}>
+      <BrowserRouter>
+        <StrictMode>
+          <App />
+        </StrictMode>
+      </BrowserRouter>
+    </Provider>
+  </QueryClientProvider>,
 );
 
 // If you want to start measuring performance in your app, pass a function

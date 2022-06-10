@@ -1,13 +1,23 @@
 import axios from 'axios';
 import { useMutation, useQuery } from 'react-query';
+import {
+  createRequestParams,
+  IApiParams,
+  IQueryParams,
+} from '../../utils/utils';
 import { User } from './user';
 
 const resourceUrl = 'api/users';
 
-export const useFetchUsers = ({ params, onSuccess, onError }: any) => {
+export const useFetchUsers = ({
+  queryParams,
+  onSuccess,
+  onError,
+}: IApiParams) => {
   return useQuery<any>(
-    ['fetchUsers', params],
-    () => axios.get(`${resourceUrl}`, { params: createRequestParams(params) }),
+    ['fetchUsers', queryParams],
+    () =>
+      axios.get(`${resourceUrl}`, { params: createRequestParams(queryParams) }),
     {
       onSuccess,
       onError,
@@ -46,10 +56,3 @@ const updateUser = (user: User): any => {
     .put(`${resourceUrl}/${user.id}`, user)
     .then((response) => response.data);
 };
-
-function createRequestParams(params: any): any {
-  return {
-    page: params.page + 1,
-    perPage: params.rows,
-  };
-}

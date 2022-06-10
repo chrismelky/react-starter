@@ -1,22 +1,23 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 
-import { Routes, Route } from 'react-router-dom';
-
-import { useAuth } from '../../hooks/useAuth';
+import { Navigate, Outlet } from 'react-router-dom';
+import { RootState } from '../../config/store';
 import { AppBar } from './AppBar';
 import { AppDrawer } from './AppDrawer';
 
-const UserList = React.lazy(() => import('../user/user-list'));
-
 export default function Main() {
-  console.log('main rendered');
-  const { user } = useAuth();
-
   const [visible, setVisible] = useState(true);
 
-  const Home = () => {
-    return <div>Home</div>;
-  };
+  const { isAuthenticated, user, sessionHasBeenFetched } = useSelector(
+    (state: RootState) => state.authentication,
+  );
+
+  if (!sessionHasBeenFetched) {
+    return <div>Connecting....</div>;
+  } else if (!isAuthenticated) {
+    return <Navigate to="/login" />;
+  }
 
   return (
     <>
@@ -25,26 +26,9 @@ export default function Main() {
         <section
           className="flex flex-column flex-grow-1"
           style={{ backgroundColor: '#e4e5e6', height: '100%' }}>
-          <AppBar setVisible={setVisible} visible={visible} />
+          <AppBar setVisible={setVisible} visible={visible} user={user} />
           <div className="flex flex-column p-3">
-            <Routes>
-              <Route
-                path="/"
-                element={
-                  <React.Suspense fallback={<>Not found</>}>
-                    <Home />
-                  </React.Suspense>
-                }
-              />
-              <Route
-                path="/user"
-                element={
-                  <React.Suspense fallback={<>Not found</>}>
-                    <UserList />
-                  </React.Suspense>
-                }
-              />
-            </Routes>
+            <Outlet />
           </div>
         </section>
       </div>
