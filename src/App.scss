@@ -227,3 +227,12 @@ td.actions {
 .p-paginator .p-paginator-current {
   margin-left: auto;
 }
+
+.p-panelmenu .no-child .p-panelmenu-content {
+  // padding: 0 !important;
+  display: none !important;
+}
+
+.sidenav-item .p-panelmenu .no-child .p-highlight {
+  border-bottom: none !important;
+}

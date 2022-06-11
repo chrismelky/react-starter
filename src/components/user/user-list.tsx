@@ -4,27 +4,37 @@ import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { Toast } from 'primereact/toast';
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
-import { UserUpdate } from './user-update';
 import { Card } from 'primereact/card';
-import { useDeleteUser, useFetchUsers } from './user-api';
-import { TableAction } from '../shared/TableAction';
-import { User } from './user';
-import { IQueryParams, stringDefaultFilter } from '../../utils/utils';
+import { TableAction } from '../shared/table-action';
+import { User, UserUpdate, useDeleteUser, useFetchUsers } from '.';
+import {
+  IQueryParams,
+  ITEMS_PER_PAGE_OPTIONS,
+  stringDefaultFilter,
+} from '../../utils/utils';
 
 export default function UserList() {
+  //Config column filters
   const initialOptionFilters: DataTableFilterMeta = {
     firstName: stringDefaultFilter,
     lastName: stringDefaultFilter,
   };
 
-  const [perPageOptions] = useState<number[]>([2, 5, 10]);
+  const perPageOptions = ITEMS_PER_PAGE_OPTIONS;
 
   const [showCreateOrUpdate, setShowCreateOrUpdate] = useState(false);
 
+  //Selected user to be updated or new user
   const [user, setUser] = useState<User>();
 
+  /** a separeate filter state to avoid data loading on initilization, table columns that can be filtered and they options (i.e not necessary to fetch data)*/
   const [optionalFilters, setOptionalFilters] = useState<DataTableFilterMeta>();
 
+  const toast = useRef<Toast>(null);
+
+  /** pagination option, optional filters ,
+   *  useFetchUser function observe this state and reload data when any property value is changed
+   */
   const [queryParams, setQueryParams] = useState<IQueryParams>({
     first: 0,
     rows: 10,
@@ -33,8 +43,6 @@ export default function UserList() {
     sortField: undefined,
     sortOrder: undefined,
   });
-
-  const toast = useRef<Toast>(null);
 
   const {
     isLoading,
@@ -49,6 +57,7 @@ export default function UserList() {
     setOptionalFilters(initialOptionFilters);
   };
 
+  // When filter cleared init filter state and update queryParam filter property
   const clearFilters = () => {
     initFilters();
     setQueryParams({
@@ -59,6 +68,7 @@ export default function UserList() {
 
   useEffect(() => {
     initFilters();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const deteleMutation = useDeleteUser({
@@ -112,6 +122,7 @@ export default function UserList() {
     });
   };
 
+  /**When filter change update queryParam filter property */
   const onFilter = (event: any) => {
     if (Object.keys(event.filters).length) {
       event['first'] = 0;

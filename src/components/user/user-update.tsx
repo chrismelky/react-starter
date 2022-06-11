@@ -4,14 +4,17 @@ import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import { MultiSelect } from 'primereact/multiselect';
 import { classNames } from 'primereact/utils';
-import { useQuery } from 'react-query';
-import { getRoles } from '../role/RoleApi';
-import { useCreateOrUpdateUser } from './user-api';
+import { useFetchRoles } from '../role';
 import { Dialog } from 'primereact/dialog';
 import { Message } from 'primereact/message';
-import { User } from './user';
+import { User, useCreateOrUpdateUser } from '.';
+import { VALID_EMAIL_PATTERN } from '../../utils/utils';
 
 export const UserUpdate = ({ user, onClose, show }: any) => {
+  const { data: roles } = useFetchRoles({
+    queryParams: { columns: 'id,name' },
+  });
+
   const {
     control,
     formState: { errors },
@@ -29,8 +32,6 @@ export const UserUpdate = ({ user, onClose, show }: any) => {
       onClose(true);
     },
   });
-
-  const { data: roles } = useQuery('roles', () => getRoles());
 
   const onSubmit = async (data: User) => {
     createOrUpdate(data);
@@ -66,7 +67,13 @@ export const UserUpdate = ({ user, onClose, show }: any) => {
                 <Controller
                   name="email"
                   control={control}
-                  rules={{ required: 'Email is reauired' }}
+                  rules={{
+                    required: 'Email is reauired',
+                    pattern: {
+                      value: VALID_EMAIL_PATTERN,
+                      message: 'Email is invalid',
+                    },
+                  }}
                   render={({ field, fieldState }) => (
                     <InputText id={field.name} {...field} />
                   )}
@@ -124,7 +131,7 @@ export const UserUpdate = ({ user, onClose, show }: any) => {
                       dataKey="id"
                       id={field.name}
                       {...field}
-                      options={roles || []}
+                      options={roles?.data || []}
                       optionLabel="name"
                     />
                   )}

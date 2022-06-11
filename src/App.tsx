@@ -4,14 +4,14 @@ import 'primereact/resources/primereact.min.css';
 import 'primereact/resources/themes/mdc-light-indigo/theme.css'; //theme                 //core css
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
-import './App.scss'; //icons
-import Main from './components/layout/Main';
-import Login from './components/login/Login';
+import './app.scss'; //icons
 import { Route, Routes } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { getSession } from './reducers/authentication';
+import Main from './components/layout/main';
+import Login from './components/login/login';
 
-const UserList = React.lazy(() => import('./components/user/user-list'));
+const UserList = React.lazy(() => import('./components/user'));
 
 const Home = () => {
   return <div>Home</div>;
@@ -22,6 +22,7 @@ function App() {
 
   useEffect(() => {
     dispatch(getSession());
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

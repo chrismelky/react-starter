@@ -1,14 +1,15 @@
 import axios from 'axios';
 import { useMutation, useQuery } from 'react-query';
-import {
-  createRequestParams,
-  IApiParams,
-  IQueryParams,
-} from '../../utils/utils';
-import { User } from './user';
+import { User } from '.';
+import { createRequestParams, IApiParams } from '../../utils/utils';
 
 const resourceUrl = 'api/users';
 
+/**
+ * fetch users by page, and optional filters
+ * @param IApiParams
+ * @returns UseQueryResult
+ */
 export const useFetchUsers = ({
   queryParams,
   onSuccess,
@@ -25,7 +26,13 @@ export const useFetchUsers = ({
   );
 };
 
-export const useCreateOrUpdateUser = ({ onSuccess, onError }: any) => {
+/**
+ * create new user or updated existing user
+ * User to be created or updated is passed to mutate function param
+ * @param IApiParams
+ * @returns UseMutationResult
+ */
+export const useCreateOrUpdateUser = ({ onSuccess, onError }: IApiParams) => {
   return useMutation<User, any, User>(
     'createUser',
     (user: User) => (user.id ? updateUser(user) : createUser(user)),
@@ -36,7 +43,12 @@ export const useCreateOrUpdateUser = ({ onSuccess, onError }: any) => {
   );
 };
 
-export const useDeleteUser = ({ onSuccess, onError }: any) => {
+/**
+ * Delete user
+ * @param IApiParams
+ * @returns  UseMutationResult
+ */
+export const useDeleteUser = ({ onSuccess, onError }: IApiParams) => {
   return useMutation(
     'deteleUser',
     (id: number) => axios.delete(`${resourceUrl}/${id}`),

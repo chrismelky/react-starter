@@ -1,9 +1,12 @@
-import axios, { AxiosError } from 'axios';
+import axios, { AxiosError, AxiosRequestConfig } from 'axios';
 import { FilterMatchMode, FilterOperator } from 'primereact/api';
 import { DataTableFilterMeta } from 'primereact/datatable';
 import { createBrowserHistory } from 'history';
 
-export const createRequestParams = (queryParams: any): any => {
+export const createRequestParams = (queryParams?: any): any => {
+  if (!queryParams) {
+    return {};
+  }
   const {
     first,
     page,
@@ -11,6 +14,7 @@ export const createRequestParams = (queryParams: any): any => {
     sortOrder,
     rows: perPage,
     optionalFilters,
+    columns,
     ...mandatoryFilters
   } = queryParams;
   let pagination = {};
@@ -43,6 +47,7 @@ export const createRequestParams = (queryParams: any): any => {
     ...search,
     ...mandatoryFilters,
     ...sort,
+    columns,
   };
 };
 
@@ -61,28 +66,37 @@ export type IQueryParams = {
 };
 
 export type IApiParams = {
-  queryParams?: any;
-  onSuccess?: any;
-  onError?: any;
+  queryParams?: any; // query params like page, perPage, sort, field filters on query data
+  onSuccess?: any; // On success callback on mutation and query
+  onError?: any; // On error callback on mutation and query
 };
 
 export const setupInterceptor = (onUnauthenticated: any) => {
-  console.log('setup called');
-  axios.interceptors.response.use(
-    (response) => {
-      console.log('intecepting..');
-
-      return response.data;
-    },
-    (error: AxiosError) => {
-      console.log(error);
-      if (error && error.response?.status === 401) {
-        onUnauthenticated();
-      }
-      return Promise.reject(error.response?.data);
-    },
-  );
+  const onRequest = (config: AxiosRequestConfig) => {
+    const token = window.localStorage.getItem(TOKEN_STORAGE_KEY);
+    if (token) {
+      config.headers!.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  };
+  const onResponseSuccess = (response) => {
+    return response.data;
+  };
+  const onResponseError = (error: AxiosError) => {
+    if (error && error.response?.status === 401) {
+      onUnauthenticated();
+    }
+    return Promise.reject(error.response?.data);
+  };
+  axios.interceptors.request.use(onRequest);
+  axios.interceptors.response.use(onResponseSuccess, onResponseError);
 };
 
 export const onAuthCall = (callback) => callback();
 export const history = createBrowserHistory();
+export const VALID_EMAIL_PATTERN =
+  /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+
+export const USER_STORAGE_KEY = 'AUTHENITCATION';
+export const TOKEN_STORAGE_KEY = 'AUTH_TOKEN';
+export const ITEMS_PER_PAGE_OPTIONS = [3, 5, 10];

@@ -1,17 +1,18 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { TOKEN_STORAGE_KEY, USER_STORAGE_KEY } from '../utils/utils';
 
 type AuthState = {
   isAuthenticated: boolean;
   user?: any;
   sessionHasBeenFetched: boolean;
+  menus: any;
 };
-
-const keyName = 'AUTHENITCATION';
 
 export const initialState: AuthState = {
   isAuthenticated: false,
   sessionHasBeenFetched: false,
   user: null,
+  menus: [],
 };
 
 export const authenticationSlice = createSlice({
@@ -23,14 +24,22 @@ export const authenticationSlice = createSlice({
         ...state,
         isAuthenticated: true,
         sessionHasBeenFetched: true,
-        user: action.payload,
+        user: action?.payload?.user,
+        menus: action?.payload?.menus,
       };
-      const { sessionHasBeenFetched, ...toStore } = authState;
-      window.localStorage.setItem(keyName, JSON.stringify(toStore));
+      window.localStorage.setItem(
+        USER_STORAGE_KEY,
+        JSON.stringify(action?.payload?.user),
+      );
+      window.localStorage.setItem(
+        TOKEN_STORAGE_KEY,
+        action?.payload?.access_token,
+      );
       return authState;
     },
     logout: (state) => {
-      window.localStorage.removeItem(keyName);
+      window.localStorage.removeItem(USER_STORAGE_KEY);
+      window.localStorage.removeItem(TOKEN_STORAGE_KEY);
       return {
         ...state,
         isAuthenticated: false,
@@ -39,17 +48,18 @@ export const authenticationSlice = createSlice({
       };
     },
     getSession: (state) => {
-      console.log('getting seestion');
-      const value = window.localStorage.getItem(keyName);
+      const value = window.localStorage.getItem(USER_STORAGE_KEY);
       if (value) {
         return {
-          ...state,
-          ...JSON.parse(value),
+          ...initialState,
+          user: JSON.parse(value),
+          isAuthenticated: true,
           sessionHasBeenFetched: true,
         };
       } else
         return {
           ...initialState,
+          isAuthenticated: false,
           sessionHasBeenFetched: true,
         };
     },

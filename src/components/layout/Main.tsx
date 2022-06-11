@@ -3,8 +3,8 @@ import { useSelector } from 'react-redux';
 
 import { Navigate, Outlet } from 'react-router-dom';
 import { RootState } from '../../config/store';
-import { AppBar } from './AppBar';
-import { AppDrawer } from './AppDrawer';
+import { AppBar } from './app-bar';
+import { AppDrawer } from './app-drawer';
 
 export default function Main() {
   const [visible, setVisible] = useState(true);
