@@ -27,15 +27,15 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
 );
 root.render(
-  <QueryClientProvider client={queryClient}>
-    <Provider store={store}>
-      <BrowserRouter>
-        <StrictMode>
+  <StrictMode>
+    <QueryClientProvider client={queryClient}>
+      <Provider store={store}>
+        <BrowserRouter>
           <App />
-        </StrictMode>
-      </BrowserRouter>
-    </Provider>
-  </QueryClientProvider>,
+        </BrowserRouter>
+      </Provider>
+    </QueryClientProvider>
+  </StrictMode>,
 );
 
 // If you want to start measuring performance in your app, pass a function

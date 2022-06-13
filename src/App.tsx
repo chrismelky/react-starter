@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { lazy, useEffect } from 'react';
 
 import 'primereact/resources/primereact.min.css';
 import 'primereact/resources/themes/mdc-light-indigo/theme.css'; //theme                 //core css
@@ -8,14 +8,14 @@ import './app.scss'; //icons
 import { Route, Routes } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { getSession } from './reducers/authentication';
-import Main from './components/layout/main';
-import Login from './components/login/login';
+import Main from './modules/layout/main';
+import Login from './modules/login/login';
+import PrivateRouteComponent from './private-route';
 
-const UserList = React.lazy(() => import('./components/user'));
-
-const Home = () => {
-  return <div>Home</div>;
-};
+const Dashboard = lazy(() => import('./modules/dashboard'));
+const UserList = lazy(() => import('./modules/user'));
+const FacilityTypeList = React.lazy(() => import('./modules/facility-type'));
+/* ====Chrispro lazy component Generator Hook: Dont Delete==== */
 
 function App() {
   const dispatch = useDispatch();
@@ -30,20 +30,28 @@ function App() {
       <Route path="/" element={<Main />}>
         <Route
           path="/"
-          element={
-            <React.Suspense fallback={<>Not found</>}>
-              <Home />
-            </React.Suspense>
-          }
+          element={<PrivateRouteComponent component={Dashboard} />}
         />
         <Route
           path="/user"
           element={
-            <React.Suspense fallback={<>Not found</>}>
-              <UserList />
-            </React.Suspense>
+            <PrivateRouteComponent
+              component={UserList}
+              hasAnyAuthorities={[]}
+            />
           }
         />
+
+        <Route
+          path="/facility-type"
+          element={
+            <PrivateRouteComponent
+              component={FacilityTypeList}
+              hasAnyAuthorities={[]}
+            />
+          }
+        />
+        {/* ====Chrispro router Generator Hook: Dont Delete==== */}
       </Route>
       <Route path="/login" element={<Login />} />
     </Routes>

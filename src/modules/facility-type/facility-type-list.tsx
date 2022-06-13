@@ -5,27 +5,34 @@ import { Column } from 'primereact/column';
 import { Toast } from 'primereact/toast';
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 import { Card } from 'primereact/card';
-import { TableAction } from '../shared/table-action';
-import { User, UserUpdate, useDeleteUser, useFetchUsers } from '.';
+import { ErrorFetching, TableAction } from '../shared';
+import ErrorBoundary from '../../utils/error-boundary';
+import {
+  FacilityType,
+  FacilityTypeUpdate,
+  useDeleteFacilityType,
+  useFetchFacilityTypes,
+  facilityTypeDefaultValue,
+} from '.';
 import {
   IQueryParams,
   ITEMS_PER_PAGE_OPTIONS,
   stringDefaultFilter,
 } from '../../utils/utils';
 
-export default function UserList() {
+export default function FacilityTypeList() {
   //Config column filters
   const initialOptionFilters: DataTableFilterMeta = {
-    firstName: stringDefaultFilter,
-    lastName: stringDefaultFilter,
+    name: stringDefaultFilter,
+    code: stringDefaultFilter,
   };
 
   const perPageOptions = ITEMS_PER_PAGE_OPTIONS;
 
   const [showCreateOrUpdate, setShowCreateOrUpdate] = useState(false);
 
-  //Selected user to be updated or new user
-  const [user, setUser] = useState<User>();
+  //Selected FacilityType to be updated or new FacilityType
+  const [facilityType, setFacilityType] = useState<FacilityType>();
 
   /** a separeate filter state to avoid data loading on initilization, table columns that can be filtered and they options (i.e not necessary to fetch data)*/
   const [optionalFilters, setOptionalFilters] = useState<DataTableFilterMeta>();
@@ -33,7 +40,7 @@ export default function UserList() {
   const toast = useRef<Toast>(null);
 
   /** pagination option, optional filters ,
-   *  useFetchUser function observe this state and reload data when any property value is changed
+   *  useFetchFacilityTypes function observe this state and reload data when any property value is changed
    */
   const [queryParams, setQueryParams] = useState<IQueryParams>({
     first: 0,
@@ -47,9 +54,10 @@ export default function UserList() {
   const {
     isLoading,
     isError,
+    error: errorFetching,
     refetch,
-    data: users,
-  } = useFetchUsers({
+    data: facilityTypes,
+  } = useFetchFacilityTypes({
     queryParams,
   });
 
@@ -71,35 +79,33 @@ export default function UserList() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const deteleMutation = useDeleteUser({
+  const deteleMutation = useDeleteFacilityType({
     onSuccess: () => {
       refetch();
       toast.current?.show({
         severity: 'success',
         summary: 'Deleted successfully',
-        detail: 'User deleted',
+        detail: 'FacilityType deleted',
         life: 3000,
       });
     },
   });
 
-  const createOrEdit = (userData?: User) => {
-    const data = userData || {
-      ...new User(),
-    };
-    setUser(data);
+  const createOrEdit = (facilityTypeData?: FacilityType) => {
+    const data = facilityTypeData || facilityTypeDefaultValue;
+    setFacilityType(data);
     setShowCreateOrUpdate(true);
   };
 
   const closeDialog = (result: boolean) => {
     setShowCreateOrUpdate(false);
-    setUser(undefined);
+    setFacilityType(undefined);
     if (result) {
       refetch();
       toast.current?.show({
         severity: 'success',
         summary: 'Success Message',
-        detail: 'User created successfully',
+        detail: 'FacilityType created successfully',
         life: 3000,
       });
     }
@@ -133,18 +139,18 @@ export default function UserList() {
     }
   };
 
-  const confirmDelete = (user: User) => {
+  const confirmDelete = (facilityType: FacilityType) => {
     confirmDialog({
-      header: 'Confirm Detele User',
-      message: 'Are you sure you want to delete this user',
-      accept: () => deteleMutation.mutate(user.id!),
+      header: 'Confirm Detele FacilityType',
+      message: 'Are you sure you want to delete this FacilityType',
+      accept: () => deteleMutation.mutate(facilityType.id!),
     });
   };
 
   const header = () => {
     return (
       <div className="flex flex-row justify-content-between align-items-center">
-        <span className="text-lg">Users</span>
+        <span className="text-lg">Facility Type</span>
 
         <div className="flex flex-row justify-content-start align-items-center gap-1">
           <Button
@@ -158,13 +164,13 @@ export default function UserList() {
             icon="pi pi-plus"
             className="p-button-raised"
             onClick={() => createOrEdit()}
-            label="Create User"></Button>
+            label="Create FacilityType"></Button>
         </div>
       </div>
     );
   };
 
-  const actions = (rowData: User) => {
+  const actions = (rowData: FacilityType) => {
     return (
       <TableAction
         rowData={rowData}
@@ -175,14 +181,10 @@ export default function UserList() {
   };
 
   return (
-    <div className="flex flex-column gap-3">
-      <Toast ref={toast} />
+    <div className="flex flex-column gap-2">
       <Card style={{ width: '100%' }}>
         {isError ? (
-          <span>
-            Error loading Data please referesh{' '}
-            <Button onClick={() => refetch()} label="Reload"></Button>
-          </span>
+          <ErrorFetching error={errorFetching} refetch={refetch} />
         ) : (
           <DataTable
             header={header}
@@ -192,14 +194,14 @@ export default function UserList() {
             paginator
             first={queryParams.first}
             rows={queryParams.rows}
-            totalRecords={users?.total}
+            totalRecords={facilityTypes?.total}
             onPage={pageChanges}
             filters={optionalFilters}
             rowsPerPageOptions={perPageOptions}
             filterDisplay="menu"
             dataKey="id"
             onFilter={onFilter}
-            value={users?.data}
+            value={facilityTypes?.data}
             loading={isLoading}
             onSort={onSort}
             sortField={queryParams.sortField}
@@ -208,29 +210,31 @@ export default function UserList() {
             <Column
               filter
               sortable
-              filterPlaceholder="Search by first name"
-              field="firstName"
-              header="First Name"
+              filterPlaceholder="Search by Name"
+              field="name"
+              header="Name"
             />
             <Column
               filter
               sortable
-              field="lastName"
-              filterPlaceholder="Search by last name"
-              header="Last Name"
+              filterPlaceholder="Search by Code"
+              field="code"
+              header="Code"
             />
-            <Column header="Email" field="email" />
             <Column className="actions" body={actions} />
           </DataTable>
         )}
         {showCreateOrUpdate && (
-          <UserUpdate
-            show={showCreateOrUpdate}
-            user={user}
-            onClose={closeDialog}
-          />
+          <ErrorBoundary>
+            <FacilityTypeUpdate
+              show={showCreateOrUpdate}
+              facilityType={facilityType}
+              onClose={closeDialog}
+            />
+          </ErrorBoundary>
         )}
       </Card>
+      <Toast ref={toast} />
       <ConfirmDialog />
     </div>
   );

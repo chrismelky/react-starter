@@ -1,8 +1,7 @@
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Button } from 'primereact/button';
-import { InputText } from 'primereact/inputtext';
-import { MultiSelect } from 'primereact/multiselect';
+import { InputText, MultiSelect, InputSwitch } from '../shared/form-components';
 import { classNames } from 'primereact/utils';
 import { useFetchRoles } from '../role';
 import { Dialog } from 'primereact/dialog';
@@ -52,7 +51,7 @@ export const UserUpdate = ({ user, onClose, show }: any) => {
       modal>
       <div>
         <form onSubmit={handleSubmit(onSubmit)} className="p-fluid">
-          <div className="flex flex-column gap-2">
+          <div className="flex flex-column gap-2 mt-1">
             {isError && (
               <Message
                 severity="error"
@@ -110,7 +109,7 @@ export const UserUpdate = ({ user, onClose, show }: any) => {
                   name="lastName"
                   control={control}
                   render={({ field }) => (
-                    <InputText id={field.name} {...field} autoFocus />
+                    <InputText id={field.name} {...field} />
                   )}
                 />
                 <label
@@ -144,6 +143,19 @@ export const UserUpdate = ({ user, onClose, show }: any) => {
               </span>
               {getFormErrorMessage('roles')}
             </div>
+
+            <Controller
+              name="isActive"
+              control={control}
+              render={({ field }) => (
+                <InputSwitch
+                  id={field.name}
+                  {...field}
+                  onChange={(e) => field.onChange(e.value)}
+                  checked={field.value}
+                />
+              )}
+            />
           </div>
           <Button type="submit" label="Submit" className="mt-2" />
         </form>

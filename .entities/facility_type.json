@@ -1,0 +1,22 @@
+[
+    {
+        "name": "id",
+        "dbType": "increments",
+        "validations": "",
+        "searchable": false,
+        "fillable": false,
+        "primary": true
+    },
+    {
+        "name": "name",
+        "dbType": "string",
+        "validations": "required",
+        "searchable": true
+    },
+    {
+        "name": "code",
+        "dbType": "string,50",
+        "searchable": true
+    }
+
+]
