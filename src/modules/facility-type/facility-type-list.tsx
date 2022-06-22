@@ -16,7 +16,7 @@ import {
 } from '.';
 import {
   IQueryParams,
-  ITEMS_PER_PAGE_OPTIONS,
+  PAGE_SIZE_OPTIONS,
   stringDefaultFilter,
 } from '../../utils/utils';
 
@@ -27,7 +27,7 @@ export default function FacilityTypeList() {
     code: stringDefaultFilter,
   };
 
-  const perPageOptions = ITEMS_PER_PAGE_OPTIONS;
+  const pageSizeOptions = PAGE_SIZE_OPTIONS;
 
   const [showCreateOrUpdate, setShowCreateOrUpdate] = useState(false);
 
@@ -44,7 +44,7 @@ export default function FacilityTypeList() {
    */
   const [queryParams, setQueryParams] = useState<IQueryParams>({
     first: 0,
-    rows: 10,
+    pageSize: 10,
     page: 0,
     optionalFilters: undefined,
     sortField: undefined,
@@ -116,7 +116,7 @@ export default function FacilityTypeList() {
       ...queryParams,
       page: event.page,
       first: event.first,
-      rows: event.rows,
+      pageSize: event.rows,
     });
   };
 
@@ -182,7 +182,7 @@ export default function FacilityTypeList() {
 
   return (
     <div className="flex flex-column gap-2">
-      <Card style={{ width: '100%' }}>
+      <Card className="w-full">
         {isError ? (
           <ErrorFetching error={errorFetching} refetch={refetch} />
         ) : (
@@ -193,11 +193,11 @@ export default function FacilityTypeList() {
             lazy
             paginator
             first={queryParams.first}
-            rows={queryParams.rows}
+            rows={queryParams.pageSize}
             totalRecords={facilityTypes?.total}
             onPage={pageChanges}
             filters={optionalFilters}
-            rowsPerPageOptions={perPageOptions}
+            rowsPerPageOptions={pageSizeOptions}
             filterDisplay="menu"
             dataKey="id"
             onFilter={onFilter}

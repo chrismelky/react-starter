@@ -49,7 +49,7 @@ export default function Login() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="p-fluid">
+    <form onSubmit={handleSubmit(onSubmit)} className="p-fluid h-full">
       <div
         className="flex flex-row justify-content-center align-items-center w-full h-full"
         style={{ backgroundColor: '#f8f9fa' }}>

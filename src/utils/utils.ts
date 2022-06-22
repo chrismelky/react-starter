@@ -12,7 +12,7 @@ export const createRequestParams = (queryParams?: any): any => {
     page,
     sortField,
     sortOrder,
-    rows: perPage,
+    pageSize: size,
     optionalFilters,
     columns,
     ...mandatoryFilters
@@ -24,7 +24,7 @@ export const createRequestParams = (queryParams?: any): any => {
   if (page !== undefined) {
     pagination = {
       page: page + 1,
-      perPage,
+      size,
     };
   }
 
@@ -58,7 +58,7 @@ export const stringDefaultFilter = {
 
 export type IQueryParams = {
   first?: number;
-  rows?: number;
+  pageSize?: number;
   page?: number;
   optionalFilters?: DataTableFilterMeta | undefined;
   sortOrder?: any;
@@ -66,7 +66,7 @@ export type IQueryParams = {
 };
 
 export type IApiParams = {
-  queryParams?: any; // query params like page, perPage, sort, field filters on query data
+  queryParams?: any; // query params like page, size, sort, field filters on query data
   onSuccess?: any; // On success callback on mutation and query
   onError?: any; // On error callback on mutation and query
 };
@@ -99,4 +99,4 @@ export const VALID_EMAIL_PATTERN =
 
 export const USER_STORAGE_KEY = 'AUTHENITCATION';
 export const TOKEN_STORAGE_KEY = 'AUTH_TOKEN';
-export const ITEMS_PER_PAGE_OPTIONS = [3, 5, 10];
+export const PAGE_SIZE_OPTIONS = [3, 5, 10];

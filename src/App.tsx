@@ -15,6 +15,7 @@ import PrivateRouteComponent from './private-route';
 const Dashboard = lazy(() => import('./modules/dashboard'));
 const UserList = lazy(() => import('./modules/user'));
 const FacilityTypeList = React.lazy(() => import('./modules/facility-type'));
+const RoleList = lazy(() => import('./modules/role'));
 /* ====Chrispro lazy component Generator Hook: Dont Delete==== */
 
 function App() {
@@ -41,12 +42,20 @@ function App() {
             />
           }
         />
-
         <Route
           path="/facility-type"
           element={
             <PrivateRouteComponent
               component={FacilityTypeList}
+              hasAnyAuthorities={[]}
+            />
+          }
+        />
+        <Route
+          path="/role"
+          element={
+            <PrivateRouteComponent
+              component={RoleList}
               hasAnyAuthorities={[]}
             />
           }

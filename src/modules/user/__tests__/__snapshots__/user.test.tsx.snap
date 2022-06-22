@@ -1,0 +1,527 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UserList Render Correct 1`] = `
+<div
+  className="flex flex-column gap-2"
+>
+  <div
+    className="p-card p-component"
+    id={null}
+    style={
+      Object {
+        "width": "100%",
+      }
+    }
+  >
+    <div
+      className="p-card-body"
+    >
+      <div
+        className="p-card-content"
+      >
+        <div
+          className="p-datatable p-component p-datatable-responsive-stack p-datatable-gridlines p-datatable-sm"
+          data-scrollselectors=".p-datatable-wrapper"
+          id={null}
+          style={
+            Object {
+              "width": "100%",
+            }
+          }
+        >
+          <div
+            className="p-datatable-loading-overlay p-component-overlay"
+          >
+            <i
+              className="p-datatable-loading-icon pi-spin pi pi-spinner"
+            />
+          </div>
+          <div
+            className="p-datatable-header"
+          >
+            <div
+              className="flex flex-row justify-content-between align-items-center"
+            >
+              <span
+                className="text-lg"
+              >
+                Users
+              </span>
+              <div
+                className="flex flex-row justify-content-start align-items-center gap-1"
+              >
+                <button
+                  aria-label="Clear filter"
+                  className="p-button p-component p-button-text p-button-plain"
+                  disabled={false}
+                  onClick={[Function]}
+                  type="button"
+                >
+                  <span
+                    className="p-button-icon p-c p-button-icon-left pi pi-filter-slash"
+                  />
+                  <span
+                    className="p-button-label p-c"
+                  >
+                    Clear filter
+                  </span>
+                </button>
+                <button
+                  aria-label="Create User"
+                  className="p-button p-component p-button-raised"
+                  data-testid="btn-create"
+                  disabled={false}
+                  onClick={[Function]}
+                >
+                  <span
+                    className="p-button-icon p-c p-button-icon-left pi pi-plus"
+                  />
+                  <span
+                    className="p-button-label p-c"
+                  >
+                    Create User
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div
+            className="p-datatable-wrapper"
+            style={
+              Object {
+                "maxHeight": null,
+              }
+            }
+          >
+            <table
+              className="p-datatable-table"
+              role="table"
+              style={null}
+            >
+              <thead
+                className="p-datatable-thead"
+              >
+                <tr
+                  role="row"
+                >
+                  <th
+                    aria-sort="none"
+                    className="p-sortable-column"
+                    colSpan={null}
+                    onClick={[Function]}
+                    onDragLeave={[Function]}
+                    onDragOver={[Function]}
+                    onDragStart={[Function]}
+                    onDrop={[Function]}
+                    onKeyDown={[Function]}
+                    onMouseDown={[Function]}
+                    role="columnheader"
+                    rowSpan={null}
+                    style={Object {}}
+                    tabIndex={0}
+                  >
+                    <div
+                      className="p-column-header-content"
+                    >
+                      <span
+                        className="p-column-title"
+                      >
+                        First Name
+                      </span>
+                      <span
+                        className="p-sortable-column-icon pi pi-fw pi-sort-alt"
+                      />
+                      <div
+                        className="p-column-filter p-fluid p-column-filter-menu"
+                      >
+                        <button
+                          aria-expanded={false}
+                          aria-haspopup={true}
+                          className="p-column-filter-menu-button p-link"
+                          onClick={[Function]}
+                          onKeyDown={[Function]}
+                          type="button"
+                        >
+                          <span
+                            className="pi pi-filter-icon pi-filter"
+                          />
+                        </button>
+                      </div>
+                    </div>
+                  </th>
+                  <th
+                    aria-sort="none"
+                    className="p-sortable-column"
+                    colSpan={null}
+                    onClick={[Function]}
+                    onDragLeave={[Function]}
+                    onDragOver={[Function]}
+                    onDragStart={[Function]}
+                    onDrop={[Function]}
+                    onKeyDown={[Function]}
+                    onMouseDown={[Function]}
+                    role="columnheader"
+                    rowSpan={null}
+                    style={Object {}}
+                    tabIndex={0}
+                  >
+                    <div
+                      className="p-column-header-content"
+                    >
+                      <span
+                        className="p-column-title"
+                      >
+                        Last Name
+                      </span>
+                      <span
+                        className="p-sortable-column-icon pi pi-fw pi-sort-alt"
+                      />
+                      <div
+                        className="p-column-filter p-fluid p-column-filter-menu"
+                      >
+                        <button
+                          aria-expanded={false}
+                          aria-haspopup={true}
+                          className="p-column-filter-menu-button p-link"
+                          onClick={[Function]}
+                          onKeyDown={[Function]}
+                          type="button"
+                        >
+                          <span
+                            className="pi pi-filter-icon pi-filter"
+                          />
+                        </button>
+                      </div>
+                    </div>
+                  </th>
+                  <th
+                    aria-sort={null}
+                    className=""
+                    colSpan={null}
+                    onClick={[Function]}
+                    onDragLeave={[Function]}
+                    onDragOver={[Function]}
+                    onDragStart={[Function]}
+                    onDrop={[Function]}
+                    onKeyDown={[Function]}
+                    onMouseDown={[Function]}
+                    role="columnheader"
+                    rowSpan={null}
+                    style={Object {}}
+                    tabIndex={null}
+                  >
+                    <div
+                      className="p-column-header-content"
+                    >
+                      <span
+                        className="p-column-title"
+                      >
+                        Email
+                      </span>
+                    </div>
+                  </th>
+                  <th
+                    aria-sort={null}
+                    className="actions"
+                    colSpan={null}
+                    onClick={[Function]}
+                    onDragLeave={[Function]}
+                    onDragOver={[Function]}
+                    onDragStart={[Function]}
+                    onDrop={[Function]}
+                    onKeyDown={[Function]}
+                    onMouseDown={[Function]}
+                    role="columnheader"
+                    rowSpan={null}
+                    style={Object {}}
+                    tabIndex={null}
+                  >
+                    <div
+                      className="p-column-header-content"
+                    >
+                      <span
+                        className="p-column-title"
+                      />
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody
+                className="p-datatable-tbody"
+              >
+                <tr
+                  className=""
+                  onClick={[Function]}
+                  onContextMenu={[Function]}
+                  onDoubleClick={[Function]}
+                  onDragEnd={[Function]}
+                  onDragLeave={[Function]}
+                  onDragOver={[Function]}
+                  onDragStart={[Function]}
+                  onDrop={[Function]}
+                  onKeyDown={[Function]}
+                  onMouseDown={[Function]}
+                  onMouseUp={[Function]}
+                  onTouchEnd={[Function]}
+                  role="row"
+                  tabIndex={null}
+                >
+                  <td
+                    className=""
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onKeyDown={[Function]}
+                    onMouseDown={[Function]}
+                    onMouseUp={[Function]}
+                    role="cell"
+                    rowSpan={null}
+                    style={Object {}}
+                    tabIndex={null}
+                  >
+                    <span
+                      className="p-column-title"
+                    >
+                      First Name
+                    </span>
+                    TestFirstName
+                  </td>
+                  <td
+                    className=""
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onKeyDown={[Function]}
+                    onMouseDown={[Function]}
+                    onMouseUp={[Function]}
+                    role="cell"
+                    rowSpan={null}
+                    style={Object {}}
+                    tabIndex={null}
+                  >
+                    <span
+                      className="p-column-title"
+                    >
+                      Last Name
+                    </span>
+                  </td>
+                  <td
+                    className=""
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onKeyDown={[Function]}
+                    onMouseDown={[Function]}
+                    onMouseUp={[Function]}
+                    role="cell"
+                    rowSpan={null}
+                    style={Object {}}
+                    tabIndex={null}
+                  >
+                    <span
+                      className="p-column-title"
+                    >
+                      Email
+                    </span>
+                  </td>
+                  <td
+                    className="actions"
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onKeyDown={[Function]}
+                    onMouseDown={[Function]}
+                    onMouseUp={[Function]}
+                    role="cell"
+                    rowSpan={null}
+                    style={Object {}}
+                    tabIndex={null}
+                  >
+                    <span
+                      className="p-column-title"
+                    />
+                    <button
+                      className="p-button p-component p-button-plain p-button-rounded p-button-text p-button-icon-only p-button-icon-only"
+                      disabled={false}
+                      onClick={[Function]}
+                    >
+                      <span
+                        className="p-button-icon p-c pi pi-pencil"
+                      />
+                      <span
+                        className="p-button-label p-c"
+                        dangerouslySetInnerHTML={
+                          Object {
+                            "__html": "&nbsp;",
+                          }
+                        }
+                      />
+                    </button>
+                    <button
+                      className="p-button p-component p-button-plain p-button-rounded p-button-text p-button-icon-only p-button-icon-only"
+                      disabled={false}
+                      onClick={[Function]}
+                    >
+                      <span
+                        className="p-button-icon p-c pi pi-trash"
+                      />
+                      <span
+                        className="p-button-label p-c"
+                        dangerouslySetInnerHTML={
+                          Object {
+                            "__html": "&nbsp;",
+                          }
+                        }
+                      />
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div
+            className="p-paginator p-component p-paginator-bottom"
+            style={null}
+          >
+            <button
+              aria-label="First Page"
+              className="p-button p-component p-paginator-first p-paginator-element p-link p-disabled p-button-icon-only p-disabled"
+              disabled={true}
+              onClick={[Function]}
+              type="button"
+            >
+              <span
+                className="p-button-icon p-c p-paginator-icon pi pi-angle-double-left"
+              />
+              <span
+                className="p-button-label p-c"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "&nbsp;",
+                  }
+                }
+              />
+            </button>
+            <button
+              aria-label="Previous Page"
+              className="p-button p-component p-paginator-prev p-paginator-element p-link p-disabled p-button-icon-only p-disabled"
+              disabled={true}
+              onClick={[Function]}
+              type="button"
+            >
+              <span
+                className="p-button-icon p-c p-paginator-icon pi pi-angle-left"
+              />
+              <span
+                className="p-button-label p-c"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "&nbsp;",
+                  }
+                }
+              />
+            </button>
+            <span
+              className="p-paginator-pages"
+            />
+            <button
+              aria-label="Next Page"
+              className="p-button p-component p-paginator-next p-paginator-element p-link p-disabled p-button-icon-only p-disabled"
+              disabled={true}
+              onClick={[Function]}
+              type="button"
+            >
+              <span
+                className="p-button-icon p-c p-paginator-icon pi pi-angle-right"
+              />
+              <span
+                className="p-button-label p-c"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "&nbsp;",
+                  }
+                }
+              />
+            </button>
+            <button
+              aria-label="Last Page"
+              className="p-button p-component p-paginator-last p-paginator-element p-link p-disabled p-button-icon-only p-disabled"
+              disabled={true}
+              onClick={[Function]}
+              type="button"
+            >
+              <span
+                className="p-button-icon p-c p-paginator-icon pi pi-angle-double-right"
+              />
+              <span
+                className="p-button-label p-c"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "&nbsp;",
+                  }
+                }
+              />
+            </button>
+            <div
+              className="p-dropdown p-component p-inputwrapper p-disabled p-inputwrapper-filled"
+              id={null}
+              onClick={[Function]}
+              onContextMenu={null}
+              onMouseDown={null}
+              style={null}
+            >
+              <div
+                className="p-hidden-accessible"
+              >
+                <input
+                  aria-haspopup="listbox"
+                  aria-label={null}
+                  aria-labelledby={null}
+                  disabled={true}
+                  id={null}
+                  onBlur={[Function]}
+                  onFocus={[Function]}
+                  onKeyDown={[Function]}
+                  readOnly={true}
+                  tabIndex={null}
+                  type="text"
+                />
+              </div>
+              <div
+                className="p-hidden-accessible p-dropdown-hidden-select"
+              >
+                <select
+                  aria-hidden="true"
+                  name={null}
+                  required={false}
+                  tabIndex={-1}
+                >
+                  <option
+                    value=""
+                  />
+                  <option
+                    value={10}
+                  >
+                    10
+                  </option>
+                </select>
+              </div>
+              <span
+                className="p-dropdown-label p-inputtext"
+              >
+                10
+              </span>
+              <div
+                aria-expanded={false}
+                aria-haspopup="listbox"
+                className="p-dropdown-trigger"
+                role="button"
+              >
+                <span
+                  className="p-dropdown-trigger-icon p-clickable pi pi-chevron-down"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

@@ -48,6 +48,7 @@ export const UserUpdate = ({ user, onClose, show }: any) => {
       visible={show}
       style={{ width: '450px' }}
       header="Create or Update User"
+      data-testid="create-update-dialog"
       modal>
       <div>
         <form onSubmit={handleSubmit(onSubmit)} className="p-fluid">
@@ -132,6 +133,7 @@ export const UserUpdate = ({ user, onClose, show }: any) => {
                       {...field}
                       options={roles?.data || []}
                       optionLabel="name"
+                      data-testid="roles"
                     />
                   )}
                 />

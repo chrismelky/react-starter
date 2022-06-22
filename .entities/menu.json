@@ -1,0 +1,39 @@
+[
+  {
+    "name": "id",
+    "dbType": "increments",
+    "validations": "",
+    "searchable": false
+  },
+  {
+    "name": "label",
+    "dbType": "string",
+    "validations": "required",
+    "searchable": true
+  },
+  {
+    "name": "icon",
+    "dbType": "string,50",
+    "validations": "",
+    "searchable": false
+  },
+  {
+    "name": "separator",
+    "dbType": "boolean",
+    "validations": "",
+    "searchable": false
+  },
+  {
+    "name": "router_link",
+    "dbType": "string",
+    "validations": "required",
+    "searchable": true
+  },
+  {
+    "name": "parent_id",
+    "dbType": "integer:unsigned:foreign,menu,id",
+    "validations": "",
+    "searchable": false,
+    "relation": "mt1,Menu,parent_id,id"
+  }
+]

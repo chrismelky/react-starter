@@ -8,11 +8,11 @@ import { Card } from 'primereact/card';
 import { ErrorFetching, TableAction } from '../shared';
 import ErrorBoundary from '../../utils/error-boundary';
 import {
-  User,
-  UserUpdate,
-  useDeleteUser,
-  useFetchUsers,
-  userDefaultValue,
+  Role,
+  RoleUpdate,
+  useDeleteRole,
+  useFetchRoles,
+  roleDefaultValue,
 } from '.';
 import {
   IQueryParams,
@@ -20,19 +20,18 @@ import {
   stringDefaultFilter,
 } from '../../utils/utils';
 
-export default function UserList() {
+export default function RoleList() {
   //Config column filters
   const initialOptionFilters: DataTableFilterMeta = {
-    firstName: stringDefaultFilter,
-    lastName: stringDefaultFilter,
+    name: stringDefaultFilter,
   };
 
   const pageSizeOptions = PAGE_SIZE_OPTIONS;
 
   const [showCreateOrUpdate, setShowCreateOrUpdate] = useState(false);
 
-  //Selected user to be updated or new user
-  const [user, setUser] = useState<User>();
+  //Selected Role to be updated or new Role
+  const [role, setRole] = useState<Role>();
 
   /** a separeate filter state to avoid data loading on initilization, table columns that can be filtered and they options (i.e not necessary to fetch data)*/
   const [optionalFilters, setOptionalFilters] = useState<DataTableFilterMeta>();
@@ -40,7 +39,7 @@ export default function UserList() {
   const toast = useRef<Toast>(null);
 
   /** pagination option, optional filters ,
-   *  useFetchUser function observe this state and reload data when any property value is changed
+   *  useFetchRoles function observe this state and reload data when any property value is changed
    */
   const [queryParams, setQueryParams] = useState<IQueryParams>({
     first: 0,
@@ -54,10 +53,10 @@ export default function UserList() {
   const {
     isLoading,
     isError,
-    refetch,
     error: errorFetching,
-    data: users,
-  } = useFetchUsers({
+    refetch,
+    data: roles,
+  } = useFetchRoles({
     queryParams,
   });
 
@@ -79,33 +78,33 @@ export default function UserList() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const deteleMutation = useDeleteUser({
+  const deteleMutation = useDeleteRole({
     onSuccess: () => {
       refetch();
       toast.current?.show({
         severity: 'success',
         summary: 'Deleted successfully',
-        detail: 'User deleted',
+        detail: 'Role deleted',
         life: 3000,
       });
     },
   });
 
-  const createOrEdit = (userData?: User) => {
-    const data = userData || { ...userDefaultValue };
-    setUser(data);
+  const createOrEdit = (roleData?: Role) => {
+    const data = roleData || roleDefaultValue;
+    setRole(data);
     setShowCreateOrUpdate(true);
   };
 
   const closeDialog = (result: boolean) => {
     setShowCreateOrUpdate(false);
-    setUser(undefined);
+    setRole(undefined);
     if (result) {
       refetch();
       toast.current?.show({
         severity: 'success',
         summary: 'Success Message',
-        detail: 'User created successfully',
+        detail: 'Role created successfully',
         life: 3000,
       });
     }
@@ -139,18 +138,18 @@ export default function UserList() {
     }
   };
 
-  const confirmDelete = (user: User) => {
+  const confirmDelete = (role: Role) => {
     confirmDialog({
-      header: 'Confirm Detele User',
-      message: 'Are you sure you want to delete this user',
-      accept: () => deteleMutation.mutate(user.id!),
+      header: 'Confirm Detele Role',
+      message: 'Are you sure you want to delete this Role',
+      accept: () => deteleMutation.mutate(role.id!),
     });
   };
 
   const header = () => {
     return (
       <div className="flex flex-row justify-content-between align-items-center">
-        <span className="text-lg">Users</span>
+        <span className="text-lg">Role</span>
 
         <div className="flex flex-row justify-content-start align-items-center gap-1">
           <Button
@@ -162,16 +161,15 @@ export default function UserList() {
           />
           <Button
             icon="pi pi-plus"
-            data-testid="btn-create"
             className="p-button-raised"
             onClick={() => createOrEdit()}
-            label="Create User"></Button>
+            label="Create Role"></Button>
         </div>
       </div>
     );
   };
 
-  const actions = (rowData: User) => {
+  const actions = (rowData: Role) => {
     return (
       <TableAction
         rowData={rowData}
@@ -195,14 +193,14 @@ export default function UserList() {
             paginator
             first={queryParams.first}
             rows={queryParams.pageSize}
-            totalRecords={users?.total}
+            totalRecords={roles?.total}
             onPage={pageChanges}
             filters={optionalFilters}
             rowsPerPageOptions={pageSizeOptions}
             filterDisplay="menu"
             dataKey="id"
             onFilter={onFilter}
-            value={users?.data}
+            value={roles?.data}
             loading={isLoading}
             onSort={onSort}
             sortField={queryParams.sortField}
@@ -211,26 +209,18 @@ export default function UserList() {
             <Column
               filter
               sortable
-              filterPlaceholder="Search by first name"
-              field="firstName"
-              header="First Name"
+              filterPlaceholder="Search by Name"
+              field="name"
+              header="Name"
             />
-            <Column
-              filter
-              sortable
-              field="lastName"
-              filterPlaceholder="Search by last name"
-              header="Last Name"
-            />
-            <Column header="Email" field="email" />
             <Column className="actions" body={actions} />
           </DataTable>
         )}
         {showCreateOrUpdate && (
           <ErrorBoundary>
-            <UserUpdate
+            <RoleUpdate
               show={showCreateOrUpdate}
-              user={user}
+              role={role}
               onClose={closeDialog}
             />
           </ErrorBoundary>
