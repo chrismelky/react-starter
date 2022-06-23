@@ -1,2 +1,2 @@
 export * from './error-fetching';
-export * from './table-action';
+export * from './app-table-action';

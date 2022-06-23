@@ -5,7 +5,7 @@ import { Column } from 'primereact/column';
 import { Toast } from 'primereact/toast';
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 import { Card } from 'primereact/card';
-import { ErrorFetching, TableAction } from '../shared';
+import { ErrorFetching, AppTableAction } from '../shared';
 import ErrorBoundary from '../../utils/error-boundary';
 import {
   Role,
@@ -171,7 +171,7 @@ export default function RoleList() {
 
   const actions = (rowData: Role) => {
     return (
-      <TableAction
+      <AppTableAction
         rowData={rowData}
         edit={createOrEdit}
         confirmDelete={confirmDelete}

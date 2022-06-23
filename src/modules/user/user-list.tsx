@@ -1,10 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { DataTable, DataTableFilterMeta } from 'primereact/datatable';
-import { Column } from 'primereact/column';
-import { Toast } from 'primereact/toast';
+import React, { useEffect, useState } from 'react';
+import { DataTableFilterMeta } from 'primereact/datatable';
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
-import { Card } from 'primereact/card';
-import { ErrorFetching, TableAction } from '../shared';
 import ErrorBoundary from '../../utils/error-boundary';
 import {
   User,
@@ -13,12 +9,9 @@ import {
   useFetchUsers,
   userDefaultValue,
 } from '.';
-import {
-  IQueryParams,
-  PAGE_SIZE_OPTIONS,
-  stringDefaultFilter,
-} from '../../utils/utils';
-import { AppTableHeader } from '../shared/table-header';
+import { IQueryParams, stringDefaultFilter } from '../../utils/utils';
+import { useAppToast } from '../shared/toast-provider';
+import { AppTable } from '../shared/app-table';
 
 export default function UserList() {
   //Config column filters
@@ -26,8 +19,6 @@ export default function UserList() {
     firstName: stringDefaultFilter,
     lastName: stringDefaultFilter,
   };
-
-  const pageSizeOptions = PAGE_SIZE_OPTIONS;
 
   const [showCreateOrUpdate, setShowCreateOrUpdate] = useState(false);
 
@@ -37,7 +28,7 @@ export default function UserList() {
   /** a separeate filter state to avoid data loading on initilization, table columns that can be filtered and they options (i.e not necessary to fetch data)*/
   const [optionalFilters, setOptionalFilters] = useState<DataTableFilterMeta>();
 
-  const toast = useRef<Toast>(null);
+  const { showSuccess, showError } = useAppToast();
 
   /** pagination option, optional filters ,
    *  useFetchUser function observe this state and reload data when any property value is changed
@@ -51,13 +42,7 @@ export default function UserList() {
     sortOrder: undefined,
   });
 
-  const {
-    isLoading,
-    isError,
-    refetch,
-    error: errorFetching,
-    data: users,
-  } = useFetchUsers({
+  const query = useFetchUsers({
     queryParams,
   });
 
@@ -81,13 +66,11 @@ export default function UserList() {
 
   const deteleMutation = useDeleteUser({
     onSuccess: () => {
-      refetch();
-      toast.current?.show({
-        severity: 'success',
-        summary: 'Deleted successfully',
-        detail: 'User deleted',
-        life: 3000,
-      });
+      query.refetch();
+      showSuccess('User deleted successfully');
+    },
+    onError: () => {
+      showError('Something went wrong', 'Cannot delete user');
     },
   });
 
@@ -101,17 +84,12 @@ export default function UserList() {
     setShowCreateOrUpdate(false);
     setUser(undefined);
     if (result) {
-      refetch();
-      toast.current?.show({
-        severity: 'success',
-        summary: 'Success Message',
-        detail: 'User created successfully',
-        life: 3000,
-      });
+      query.refetch();
+      showSuccess('User created successfully');
     }
   };
 
-  const pageChanges = (event: any) => {
+  const onPageChange = (event: any) => {
     setQueryParams({
       ...queryParams,
       page: event.page,
@@ -147,81 +125,29 @@ export default function UserList() {
     });
   };
 
-  const header = () => {
-    return (
-      <AppTableHeader
-        title="User"
-        create={() => createOrEdit()}
-        clearFilters={() => clearFilters()}
-      />
-    );
-  };
-
-  const actions = (rowData: User) => {
-    return (
-      <TableAction
-        rowData={rowData}
-        edit={createOrEdit}
-        confirmDelete={confirmDelete}
-      />
-    );
-  };
-
   return (
-    <div className="flex flex-column gap-2">
-      <Card className="shadow-5 w-full">
-        {isError ? (
-          <ErrorFetching error={errorFetching} refetch={refetch} />
-        ) : (
-          <DataTable
-            header={header}
-            size="small"
-            lazy
-            paginator
-            first={queryParams.first}
-            rows={queryParams.pageSize}
-            totalRecords={users?.total}
-            onPage={pageChanges}
-            filters={optionalFilters}
-            rowsPerPageOptions={pageSizeOptions}
-            filterDisplay="menu"
-            dataKey="id"
-            onFilter={onFilter}
-            value={users?.data}
-            loading={isLoading}
-            onSort={onSort}
-            sortField={queryParams.sortField}
-            sortOrder={queryParams.sortOrder}
-            style={{ width: '100%' }}>
-            <Column
-              filter
-              sortable
-              filterPlaceholder="Search by first name"
-              field="firstName"
-              header="First Name"
-            />
-            <Column
-              filter
-              sortable
-              field="lastName"
-              filterPlaceholder="Search by last name"
-              header="Last Name"
-            />
-            <Column header="Email" field="email" />
-            <Column className="actions" body={actions} />
-          </DataTable>
-        )}
-        {showCreateOrUpdate && (
-          <ErrorBoundary>
-            <UserUpdate
-              show={showCreateOrUpdate}
-              user={user}
-              onClose={closeDialog}
-            />
-          </ErrorBoundary>
-        )}
-      </Card>
-      <Toast ref={toast} />
+    <div className="flex flex-column gap-3">
+      <AppTable
+        optionalFilters={optionalFilters}
+        query={query}
+        queryParams={queryParams}
+        mutation={deteleMutation}
+        createOrEdit={createOrEdit}
+        confirmDelete={confirmDelete}
+        onSort={onSort}
+        onFilter={onFilter}
+        onPageChange={onPageChange}
+        clearFilters={clearFilters}
+      />
+      {showCreateOrUpdate && (
+        <ErrorBoundary>
+          <UserUpdate
+            show={showCreateOrUpdate}
+            user={user}
+            onClose={closeDialog}
+          />
+        </ErrorBoundary>
+      )}
       <ConfirmDialog />
     </div>
   );

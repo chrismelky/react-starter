@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from 'primereact/button';
 
-export const TableAction = ({ rowData, edit, confirmDelete }: any) => {
+export const AppTableAction = ({ rowData, edit, confirmDelete }: any) => {
   return (
     <React.Fragment>
       <div className="flex flex-row ">

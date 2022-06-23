@@ -10,6 +10,7 @@ import { store } from './config/store';
 import { setupInterceptor } from './utils/utils';
 import { bindActionCreators } from '@reduxjs/toolkit';
 import { logout } from './reducers/authentication';
+import { AppToastProvider } from './modules/shared/toast-provider';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -31,7 +32,9 @@ root.render(
     <QueryClientProvider client={queryClient}>
       <Provider store={store}>
         <BrowserRouter>
-          <App />
+          <AppToastProvider>
+            <App />
+          </AppToastProvider>
         </BrowserRouter>
       </Provider>
     </QueryClientProvider>
