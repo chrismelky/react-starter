@@ -187,7 +187,6 @@ export default function RoleList() {
         ) : (
           <DataTable
             header={header}
-            showGridlines
             size="small"
             lazy
             paginator

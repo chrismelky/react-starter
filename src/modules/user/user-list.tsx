@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { DataTable, DataTableFilterMeta } from 'primereact/datatable';
-import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { Toast } from 'primereact/toast';
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
@@ -19,6 +18,7 @@ import {
   PAGE_SIZE_OPTIONS,
   stringDefaultFilter,
 } from '../../utils/utils';
+import { AppTableHeader } from '../shared/table-header';
 
 export default function UserList() {
   //Config column filters
@@ -149,25 +149,11 @@ export default function UserList() {
 
   const header = () => {
     return (
-      <div className="flex flex-row justify-content-between align-items-center">
-        <span className="text-lg">Users</span>
-
-        <div className="flex flex-row justify-content-start align-items-center gap-1">
-          <Button
-            type="button"
-            icon="pi pi-filter-slash"
-            label="Clear filter"
-            className="p-button-text p-button-plain"
-            onClick={clearFilters}
-          />
-          <Button
-            icon="pi pi-plus"
-            data-testid="btn-create"
-            className="p-button-raised"
-            onClick={() => createOrEdit()}
-            label="Create User"></Button>
-        </div>
-      </div>
+      <AppTableHeader
+        title="User"
+        create={() => createOrEdit()}
+        clearFilters={() => clearFilters()}
+      />
     );
   };
 
@@ -183,13 +169,12 @@ export default function UserList() {
 
   return (
     <div className="flex flex-column gap-2">
-      <Card style={{ width: '100%' }}>
+      <Card className="shadow-5 w-full">
         {isError ? (
           <ErrorFetching error={errorFetching} refetch={refetch} />
         ) : (
           <DataTable
             header={header}
-            showGridlines
             size="small"
             lazy
             paginator

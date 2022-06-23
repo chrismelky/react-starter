@@ -54,7 +54,7 @@ export default function Login() {
         className="flex flex-row justify-content-center align-items-center w-full h-full"
         style={{ backgroundColor: '#f8f9fa' }}>
         <Card className="w-11 md:w-6 lg:w-4">
-          <div className="flex flex-column justify-content-start align-items-center">
+          <div className="flex flex-column justify-content-start align-items-center gap-3">
             <span className="text-lg font-medium">Login</span>
             {isError && (
               <Message

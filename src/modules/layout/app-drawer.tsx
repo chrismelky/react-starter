@@ -9,6 +9,17 @@ import { PanelMenu } from 'primereact/panelmenu';
 export const AppDrawer = ({ visible, setVisible }: any) => {
   let navigate = useNavigate();
 
+  const menuItem = (item, options) => {
+    return (
+      /* custom element */
+      <Link to="user" className={options.className}>
+        <span
+          className={classNames(options.iconClassName, 'pi pi-home')}></span>
+        <span className={options.labelClassName}>{item.label}</span>
+      </Link>
+    );
+  };
+
   const [items] = useState<MenuItem[]>([
     {
       label: 'Dashboard',
@@ -25,19 +36,7 @@ export const AppDrawer = ({ visible, setVisible }: any) => {
         {
           label: 'User',
           icon: 'pi',
-          template: (item, options) => {
-            return (
-              /* custom element */
-              <Link to="user" className={options.className}>
-                <span
-                  className={classNames(
-                    options.iconClassName,
-                    'pi pi-home',
-                  )}></span>
-                ;<span className={options.labelClassName}>{item.label}</span>;
-              </Link>
-            );
-          },
+          url: '/user',
         },
       ],
     },

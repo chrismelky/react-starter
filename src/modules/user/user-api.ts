@@ -60,11 +60,9 @@ export const useDeleteUser = ({ onSuccess, onError }: IApiParams) => {
 };
 
 const createUser = (user: User): any => {
-  return axios.post(`${resourceUrl}`, user).then((response) => response.data);
+  return axios.post(`${resourceUrl}`, user);
 };
 
 const updateUser = (user: User): any => {
-  return axios
-    .put(`${resourceUrl}/${user.id}`, user)
-    .then((response) => response.data);
+  return axios.patch(`${resourceUrl}/${user.id}`, user);
 };

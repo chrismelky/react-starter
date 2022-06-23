@@ -1,16 +1,17 @@
 import React, { lazy, useEffect } from 'react';
 
 import 'primereact/resources/primereact.min.css';
-import 'primereact/resources/themes/mdc-light-indigo/theme.css'; //theme                 //core css
+// import 'primereact/resources/themes/mdc-light-indigo/theme.css'; //theme                 //core css
+import 'primereact/resources/themes/tailwind-light/theme.css'; //theme                 //core css
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
 import './app.scss'; //icons
 import { Route, Routes } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import { getSession } from './reducers/authentication';
 import Main from './modules/layout/main';
 import Login from './modules/login/login';
 import PrivateRouteComponent from './private-route';
+import { useAppDispatch } from './config/store';
 
 const Dashboard = lazy(() => import('./modules/dashboard'));
 const UserList = lazy(() => import('./modules/user'));
@@ -19,7 +20,7 @@ const RoleList = lazy(() => import('./modules/role'));
 /* ====Chrispro lazy component Generator Hook: Dont Delete==== */
 
 function App() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(getSession());

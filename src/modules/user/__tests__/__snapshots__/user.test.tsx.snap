@@ -5,13 +5,9 @@ exports[`UserList Render Correct 1`] = `
   className="flex flex-column gap-2"
 >
   <div
-    className="p-card p-component"
+    className="p-card p-component shadow-5 w-full"
     id={null}
-    style={
-      Object {
-        "width": "100%",
-      }
-    }
+    style={null}
   >
     <div
       className="p-card-body"
@@ -20,7 +16,7 @@ exports[`UserList Render Correct 1`] = `
         className="p-card-content"
       >
         <div
-          className="p-datatable p-component p-datatable-responsive-stack p-datatable-gridlines p-datatable-sm"
+          className="p-datatable p-component p-datatable-responsive-stack p-datatable-sm"
           data-scrollselectors=".p-datatable-wrapper"
           id={null}
           style={
@@ -45,14 +41,14 @@ exports[`UserList Render Correct 1`] = `
               <span
                 className="text-lg"
               >
-                Users
+                User
               </span>
               <div
-                className="flex flex-row justify-content-start align-items-center gap-1"
+                className="flex flex-row justify-content-start align-items-center gap-2"
               >
                 <button
                   aria-label="Clear filter"
-                  className="p-button p-component p-button-text p-button-plain"
+                  className="p-button p-component p-button-text p-button-plain p-button-sm"
                   disabled={false}
                   onClick={[Function]}
                   type="button"
@@ -68,7 +64,7 @@ exports[`UserList Render Correct 1`] = `
                 </button>
                 <button
                   aria-label="Create User"
-                  className="p-button p-component p-button-raised"
+                  className="p-button p-component p-button-raised p-button-sm"
                   data-testid="btn-create"
                   disabled={false}
                   onClick={[Function]}
@@ -336,40 +332,44 @@ exports[`UserList Render Correct 1`] = `
                     <span
                       className="p-column-title"
                     />
-                    <button
-                      className="p-button p-component p-button-plain p-button-rounded p-button-text p-button-icon-only p-button-icon-only"
-                      disabled={false}
-                      onClick={[Function]}
+                    <div
+                      className="flex flex-row "
                     >
-                      <span
-                        className="p-button-icon p-c pi pi-pencil"
-                      />
-                      <span
-                        className="p-button-label p-c"
-                        dangerouslySetInnerHTML={
-                          Object {
-                            "__html": "&nbsp;",
+                      <button
+                        className="p-button p-component p-button-plain p-button-rounded p-button-text p-button-icon-only p-button-sm p-button-icon-only"
+                        disabled={false}
+                        onClick={[Function]}
+                      >
+                        <span
+                          className="p-button-icon p-c pi pi-pencil"
+                        />
+                        <span
+                          className="p-button-label p-c"
+                          dangerouslySetInnerHTML={
+                            Object {
+                              "__html": "&nbsp;",
+                            }
                           }
-                        }
-                      />
-                    </button>
-                    <button
-                      className="p-button p-component p-button-plain p-button-rounded p-button-text p-button-icon-only p-button-icon-only"
-                      disabled={false}
-                      onClick={[Function]}
-                    >
-                      <span
-                        className="p-button-icon p-c pi pi-trash"
-                      />
-                      <span
-                        className="p-button-label p-c"
-                        dangerouslySetInnerHTML={
-                          Object {
-                            "__html": "&nbsp;",
+                        />
+                      </button>
+                      <button
+                        className="p-button p-component p-button-plain p-button-rounded p-button-text p-button-icon-only p-button-sm p-button-icon-only"
+                        disabled={false}
+                        onClick={[Function]}
+                      >
+                        <span
+                          className="p-button-icon p-c pi pi-trash"
+                        />
+                        <span
+                          className="p-button-label p-c"
+                          dangerouslySetInnerHTML={
+                            Object {
+                              "__html": "&nbsp;",
+                            }
                           }
-                        }
-                      />
-                    </button>
+                        />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               </tbody>

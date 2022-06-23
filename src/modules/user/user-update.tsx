@@ -48,11 +48,12 @@ export const UserUpdate = ({ user, onClose, show }: any) => {
       visible={show}
       style={{ width: '450px' }}
       header="Create or Update User"
+      position="top"
       data-testid="create-update-dialog"
       modal>
       <div>
         <form onSubmit={handleSubmit(onSubmit)} className="p-fluid">
-          <div className="flex flex-column gap-2 mt-1">
+          <div className="flex flex-column gap-3 mt-3">
             {isError && (
               <Message
                 severity="error"

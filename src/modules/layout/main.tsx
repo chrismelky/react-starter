@@ -23,9 +23,7 @@ export default function Main() {
     <>
       <div className="flex" style={{ backgroundColor: '#e4e5e6' }}>
         <AppDrawer setVisible={() => setVisible} visible={visible} />
-        <section
-          className="flex flex-column flex-grow-1"
-          style={{ backgroundColor: '#e4e5e6', height: '100%' }}>
+        <section className="flex flex-column flex-grow-1 h-full">
           <AppBar setVisible={setVisible} visible={visible} user={user} />
           <div className="flex flex-column p-3">
             <Outlet />
