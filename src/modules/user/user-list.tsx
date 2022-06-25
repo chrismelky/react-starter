@@ -25,7 +25,7 @@ export default function UserList() {
 
   const columns = [
     { field: 'firstName', header: 'First Name', searchable: true },
-    { field: 'lastName', header: 'Last Name' },
+    { field: 'lastName', header: 'Last Name', searchable: true },
     { field: 'email', header: 'Email' },
   ];
 
