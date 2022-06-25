@@ -64,5 +64,5 @@ const createRole = (role: Role): any => {
 };
 
 const updateRole = (role: Role): any => {
-  return axios.put(`${resourceUrl}/${role.id}`, role);
+  return axios.patch(`${resourceUrl}/${role.id}`, role);
 };

@@ -20,16 +20,14 @@ export default function Main() {
   }
 
   return (
-    <>
-      <div className="flex" style={{ backgroundColor: '#e4e5e6' }}>
-        <AppDrawer setVisible={() => setVisible} visible={visible} />
-        <section className="flex flex-column flex-grow-1 h-full">
-          <AppBar setVisible={setVisible} visible={visible} user={user} />
-          <div className="flex flex-column p-3">
-            <Outlet />
-          </div>
-        </section>
-      </div>
-    </>
+    <div className="flex h-full">
+      <AppDrawer setVisible={() => setVisible} visible={visible} />
+      <section className="flex flex-column flex-grow-1 h-full">
+        <AppBar setVisible={setVisible} visible={visible} user={user} />
+        <div className="flex flex-column p-3">
+          <Outlet />
+        </div>
+      </section>
+    </div>
   );
 }

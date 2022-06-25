@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Card } from 'primereact/card';
 import { Column } from 'primereact/column';
 import { DataTable, DataTableFilterMeta } from 'primereact/datatable';
@@ -10,28 +10,84 @@ import { UseMutationResult, UseQueryResult } from 'react-query';
 
 export type AppTableType<T> = {
   createOrEdit: (entity?: T) => void;
-  clearFilters: () => void;
   confirmDelete: (entity: T) => void;
-  onSort: (event: any) => void;
-  onFilter: (event: any) => void;
-  onPageChange: (event: any) => void;
+  onParamChange: (event: any) => void;
   query: UseQueryResult<any>;
   mutation: UseMutationResult<any, any, any>;
   queryParams: IQueryParams;
-  optionalFilters?: DataTableFilterMeta;
+  columns: any[];
+  initialOptionFilters: DataTableFilterMeta;
 };
 export const AppTable = (props: AppTableType<any>) => {
   const pageSizeOptions = PAGE_SIZE_OPTIONS;
+
+  /** a separeate filter state to avoid data loading on initilization, table columns that can be filtered and they options (i.e not necessary to fetch data)*/
+  const [optionalFilters, setOptionalFilters] = useState<DataTableFilterMeta>();
+
+  const initFilters = () => {
+    setOptionalFilters(props.initialOptionFilters);
+  };
+
+  // When filter cleared init filter state and update queryParam filter property
+  const clearFilters = () => {
+    initFilters();
+    props.onParamChange({ optionalFilters });
+  };
+
+  const onPageChange = (event: any) => {
+    props.onParamChange({
+      page: event.page,
+      first: event.first,
+      pageSize: event.rows,
+    });
+  };
+
+  /**When filter change update queryParam filter property */
+  const onFilter = (event: any) => {
+    if (Object.keys(event.filters).length) {
+      event['first'] = 0;
+      props.onParamChange({
+        optionalFilters: { ...event.filters },
+      });
+    }
+  };
+
+  const onSort = (event) => {
+    props.onParamChange({
+      sortField: event.sortField,
+      sortOrder: event.sortOrder,
+    });
+  };
+
+  useEffect(() => {
+    initFilters();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const header = () => {
     return (
       <AppTableHeader
         title="User"
         create={() => props.createOrEdit()}
-        clearFilters={props.clearFilters}
+        clearFilters={clearFilters}
       />
     );
   };
+
+  const dynamicColumns = props.columns.map((col, i) => {
+    return col.searchable ? (
+      <Column
+        filter
+        sortable
+        filterPlaceholder={`Search by ${col.header}`}
+        key={col.field}
+        field={col.field}
+        header={col.header}
+      />
+    ) : (
+      <Column key={col.field} field={col.field} header={col.header} />
+    );
+  });
 
   const actions = (rowData: any) => {
     return (
@@ -58,33 +114,19 @@ export const AppTable = (props: AppTableType<any>) => {
           first={props.queryParams.first}
           rows={props.queryParams.pageSize}
           totalRecords={props.query.data?.total}
-          onPage={props.onPageChange}
-          filters={props.optionalFilters}
+          onPage={onPageChange}
+          filters={optionalFilters}
           rowsPerPageOptions={pageSizeOptions}
           filterDisplay="menu"
           dataKey="id"
-          onFilter={props.onFilter}
+          onFilter={onFilter}
           value={props.query.data?.data}
           loading={props.query.isLoading}
-          onSort={props.onSort}
+          onSort={onSort}
           sortField={props.queryParams.sortField}
           sortOrder={props.queryParams.sortOrder}
           className="w-full">
-          <Column
-            filter
-            sortable
-            filterPlaceholder="Search by first name"
-            field="firstName"
-            header="First Name"
-          />
-          <Column
-            filter
-            sortable
-            field="lastName"
-            filterPlaceholder="Search by last name"
-            header="Last Name"
-          />
-          <Column header="Email" field="email" />
+          {dynamicColumns}
           <Column className="actions" body={actions} />
         </DataTable>
       )}

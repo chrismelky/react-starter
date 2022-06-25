@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { DataTableFilterMeta } from 'primereact/datatable';
-import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 import ErrorBoundary from '../../utils/error-boundary';
 import {
   User,
@@ -9,7 +8,11 @@ import {
   useFetchUsers,
   userDefaultValue,
 } from '.';
-import { IQueryParams, stringDefaultFilter } from '../../utils/utils';
+import {
+  DEFAULT_QUERY_PARAMS,
+  IQueryParams,
+  stringDefaultFilter,
+} from '../../utils/utils';
 import { useAppToast } from '../shared/toast-provider';
 import { AppTable } from '../shared/app-table';
 
@@ -20,49 +23,28 @@ export default function UserList() {
     lastName: stringDefaultFilter,
   };
 
+  const columns = [
+    { field: 'firstName', header: 'First Name', searchable: true },
+    { field: 'lastName', header: 'Last Name' },
+    { field: 'email', header: 'Email' },
+  ];
+
   const [showCreateOrUpdate, setShowCreateOrUpdate] = useState(false);
 
   //Selected user to be updated or new user
   const [user, setUser] = useState<User>();
 
-  /** a separeate filter state to avoid data loading on initilization, table columns that can be filtered and they options (i.e not necessary to fetch data)*/
-  const [optionalFilters, setOptionalFilters] = useState<DataTableFilterMeta>();
-
-  const { showSuccess, showError } = useAppToast();
+  const { showSuccess, showError, confirm } = useAppToast();
 
   /** pagination option, optional filters ,
    *  useFetchUser function observe this state and reload data when any property value is changed
    */
-  const [queryParams, setQueryParams] = useState<IQueryParams>({
-    first: 0,
-    pageSize: 10,
-    page: 0,
-    optionalFilters: undefined,
-    sortField: undefined,
-    sortOrder: undefined,
-  });
+  const [queryParams, setQueryParams] =
+    useState<IQueryParams>(DEFAULT_QUERY_PARAMS);
 
   const query = useFetchUsers({
     queryParams,
   });
-
-  const initFilters = () => {
-    setOptionalFilters(initialOptionFilters);
-  };
-
-  // When filter cleared init filter state and update queryParam filter property
-  const clearFilters = () => {
-    initFilters();
-    setQueryParams({
-      ...queryParams,
-      optionalFilters,
-    });
-  };
-
-  useEffect(() => {
-    initFilters();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const deteleMutation = useDeleteUser({
     onSuccess: () => {
@@ -89,55 +71,30 @@ export default function UserList() {
     }
   };
 
-  const onPageChange = (event: any) => {
+  const onParamChange = (changes: any) => {
     setQueryParams({
       ...queryParams,
-      page: event.page,
-      first: event.first,
-      pageSize: event.rows,
+      ...changes,
     });
-  };
-
-  const onSort = (event) => {
-    setQueryParams({
-      ...queryParams,
-      sortField: event.sortField,
-      sortOrder: event.sortOrder,
-    });
-  };
-
-  /**When filter change update queryParam filter property */
-  const onFilter = (event: any) => {
-    if (Object.keys(event.filters).length) {
-      event['first'] = 0;
-      setQueryParams({
-        ...queryParams,
-        optionalFilters: { ...event.filters },
-      });
-    }
   };
 
   const confirmDelete = (user: User) => {
-    confirmDialog({
-      header: 'Confirm Detele User',
-      message: 'Are you sure you want to delete this user',
-      accept: () => deteleMutation.mutate(user.id!),
-    });
+    confirm(`Are you sure you want to delete this user`, 'Confirm Delete', () =>
+      deteleMutation.mutate(user.id),
+    );
   };
 
   return (
     <div className="flex flex-column gap-3">
       <AppTable
-        optionalFilters={optionalFilters}
+        columns={columns}
         query={query}
         queryParams={queryParams}
+        initialOptionFilters={initialOptionFilters}
         mutation={deteleMutation}
         createOrEdit={createOrEdit}
         confirmDelete={confirmDelete}
-        onSort={onSort}
-        onFilter={onFilter}
-        onPageChange={onPageChange}
-        clearFilters={clearFilters}
+        onParamChange={onParamChange}
       />
       {showCreateOrUpdate && (
         <ErrorBoundary>
@@ -148,7 +105,6 @@ export default function UserList() {
           />
         </ErrorBoundary>
       )}
-      <ConfirmDialog />
     </div>
   );
 }

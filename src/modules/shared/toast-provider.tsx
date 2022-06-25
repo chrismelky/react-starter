@@ -1,16 +1,19 @@
+import React, { createContext, useContext, useMemo, useRef } from 'react';
 import { Toast } from 'primereact/toast';
-import React, { createContext, useContext, useRef } from 'react';
+import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 
 export type AppToastType = {
   showSuccess: (message: string, title?: string) => void;
   showError: (message: string, title?: string) => void;
   showWarning: (message: string, title?: string) => void;
+  confirm: (message: string, header: string, accept: any) => void;
 };
 
 export const AppToastParam: AppToastType = {
   showSuccess: (message: string, title?: string) => {},
   showError: (message: string, title?: string) => {},
   showWarning: (message: string, title?: string) => {},
+  confirm: (message: string, header: string, accept: any) => {},
 };
 
 const ToastContext = createContext<AppToastType>(AppToastParam);
@@ -44,11 +47,29 @@ const AppToastProvider = ({ children }) => {
       life: 3000,
     });
   };
+  const confirm = (message: string, header: string, accept: any) => {
+    confirmDialog({
+      header: 'Confirm Detele User',
+      message: 'Are you sure you want to delete this user',
+      accept: accept,
+    });
+  };
+
+  const value = useMemo(
+    () => ({
+      showSuccess,
+      showError,
+      showWarning,
+      confirm,
+    }),
+    [],
+  );
 
   return (
-    <ToastContext.Provider value={{ showSuccess, showError, showWarning }}>
+    <ToastContext.Provider value={value}>
       {children}
       <Toast ref={toast} />
+      <ConfirmDialog />
     </ToastContext.Provider>
   );
 };

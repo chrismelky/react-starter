@@ -34,9 +34,14 @@ export const AppDrawer = ({ visible, setVisible }: any) => {
       icon: 'pi pi-pw pi-cog',
       items: [
         {
-          label: 'User',
+          label: 'Roles',
           icon: 'pi',
-          url: '/user',
+          command: () => navigate('/role'),
+        },
+        {
+          label: 'Users',
+          icon: 'pi',
+          command: () => navigate('/user'),
         },
       ],
     },

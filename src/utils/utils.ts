@@ -100,3 +100,11 @@ export const VALID_EMAIL_PATTERN =
 export const USER_STORAGE_KEY = 'AUTHENITCATION';
 export const TOKEN_STORAGE_KEY = 'AUTH_TOKEN';
 export const PAGE_SIZE_OPTIONS = [3, 5, 10];
+export const DEFAULT_QUERY_PARAMS = {
+  first: 0,
+  pageSize: 10,
+  page: 0,
+  optionalFilters: undefined,
+  sortField: undefined,
+  sortOrder: undefined,
+};
