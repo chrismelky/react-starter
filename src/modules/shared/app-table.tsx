@@ -1,12 +1,12 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card } from 'primereact/card';
 import { Column } from 'primereact/column';
 import { DataTable, DataTableFilterMeta } from 'primereact/datatable';
 import { IQueryParams, PAGE_SIZE_OPTIONS } from '../../utils/utils';
 import { ErrorFetching } from './error-fetching';
 import { AppTableAction } from './app-table-action';
-import { AppTableHeader } from './app-table-header';
 import { UseMutationResult, UseQueryResult } from 'react-query';
+import { Button } from 'primereact/button';
 
 export type AppTableType<T> = {
   createOrEdit: (entity?: T) => void;
@@ -16,6 +16,7 @@ export type AppTableType<T> = {
   mutation: UseMutationResult<any, any, any>;
   queryParams: IQueryParams;
   columns: any[];
+  title?: string;
   initialOptionFilters: DataTableFilterMeta;
 };
 export const AppTable = (props: AppTableType<any>) => {
@@ -66,11 +67,24 @@ export const AppTable = (props: AppTableType<any>) => {
 
   const header = () => {
     return (
-      <AppTableHeader
-        title="User"
-        create={() => props.createOrEdit()}
-        clearFilters={clearFilters}
-      />
+      <div className="flex flex-row justify-content-between align-items-center">
+        <span className="text-lg">{props.title}</span>
+        <div className="flex flex-row justify-content-start align-items-center gap-2">
+          <Button
+            type="button"
+            icon="pi pi-filter-slash"
+            label="Clear filter"
+            className="p-button-text p-button-plain p-button-sm"
+            onClick={clearFilters}
+          />
+          <Button
+            icon="pi pi-plus"
+            data-testid="btn-create"
+            className="p-button-raised p-button-sm"
+            onClick={() => props.createOrEdit()}
+            label="Create"></Button>
+        </div>
+      </div>
     );
   };
 
@@ -98,6 +112,7 @@ export const AppTable = (props: AppTableType<any>) => {
       />
     );
   };
+
   return (
     <Card className="shadow-5 w-full">
       {props.query.isError ? (

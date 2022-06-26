@@ -92,6 +92,7 @@ export default function RoleList() {
         createOrEdit={createOrEdit}
         confirmDelete={confirmDelete}
         onParamChange={onParamChange}
+        title="Roles"
       />
       {showCreateOrUpdate && (
         <ErrorBoundary>

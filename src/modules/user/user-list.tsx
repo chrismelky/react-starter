@@ -89,6 +89,7 @@ export default function UserList() {
       <AppTable
         columns={columns}
         query={query}
+        title="Users"
         queryParams={queryParams}
         initialOptionFilters={initialOptionFilters}
         mutation={deteleMutation}

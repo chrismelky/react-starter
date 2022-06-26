@@ -1,11 +1,10 @@
 import React, { lazy, useEffect } from 'react';
 
 import 'primereact/resources/primereact.min.css';
-// import 'primereact/resources/themes/mdc-light-indigo/theme.css'; //theme                 //core css
-import 'primereact/resources/themes/tailwind-light/theme.css'; //theme                 //core css
+import 'primereact/resources/themes/tailwind-light/theme.css';
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
-import './app.scss'; //icons
+import './app.scss';
 import { Route, Routes } from 'react-router-dom';
 import { getSession } from './reducers/authentication';
 import Main from './modules/layout/main';
@@ -15,7 +14,6 @@ import { useAppDispatch } from './config/store';
 
 const Dashboard = lazy(() => import('./modules/dashboard'));
 const UserList = lazy(() => import('./modules/user'));
-const FacilityTypeList = React.lazy(() => import('./modules/facility-type'));
 const RoleList = lazy(() => import('./modules/role'));
 /* ====Chrispro lazy component Generator Hook: Dont Delete==== */
 
@@ -39,15 +37,6 @@ function App() {
           element={
             <PrivateRouteComponent
               component={UserList}
-              hasAnyAuthorities={[]}
-            />
-          }
-        />
-        <Route
-          path="/facility-type"
-          element={
-            <PrivateRouteComponent
-              component={FacilityTypeList}
               hasAnyAuthorities={[]}
             />
           }

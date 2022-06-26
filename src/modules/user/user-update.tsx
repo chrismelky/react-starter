@@ -1,19 +1,17 @@
 import React from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import { Button } from 'primereact/button';
-import { InputText, MultiSelect, InputSwitch } from '../shared/form-components';
-import { classNames } from 'primereact/utils';
+import { useForm } from 'react-hook-form';
 import { useFetchRoles } from '../role';
-import { Dialog } from 'primereact/dialog';
-import { Message } from 'primereact/message';
 import { User, useCreateOrUpdateUser } from '.';
 import { VALID_EMAIL_PATTERN } from '../../utils/utils';
+import { AppDialog } from '../shared/app-dialog';
+import {
+  AppInputSwitch,
+  AppInputText,
+  AppMultSelect,
+  AppSubmitBtn,
+} from '../shared/app-form-controls';
 
 export const UserUpdate = ({ user, onClose, show }: any) => {
-  const { data: roles } = useFetchRoles({
-    queryParams: { columns: 'id,name' },
-  });
-
   const {
     control,
     formState: { errors },
@@ -22,147 +20,60 @@ export const UserUpdate = ({ user, onClose, show }: any) => {
     defaultValues: user,
   });
 
-  const {
-    mutate: createOrUpdate,
-    isError,
-    error,
-  } = useCreateOrUpdateUser({
-    onSuccess: () => {
-      onClose(true);
-    },
+  const rolesQuery = useFetchRoles({
+    queryParams: { columns: 'id,name' },
   });
 
-  const onSubmit = async (data: User) => {
-    createOrUpdate(data);
-  };
+  const saveMutation = useCreateOrUpdateUser({
+    onSuccess: () => onClose(true),
+  });
 
-  const getFormErrorMessage = (name: string) => {
-    return (
-      errors[name] && <small className="p-error">{errors[name].message}</small>
-    );
-  };
+  const onSubmit = async (data: User) => saveMutation.mutate(data);
 
   return (
-    <Dialog
-      onHide={() => onClose(false)}
-      visible={show}
-      style={{ width: '450px' }}
+    <AppDialog
+      show={show}
+      onClose={onClose}
       header="Create or Update User"
-      position="top"
-      data-testid="create-update-dialog"
-      modal>
-      <div>
-        <form onSubmit={handleSubmit(onSubmit)} className="p-fluid">
-          <div className="flex flex-column gap-3 mt-3">
-            {isError && (
-              <Message
-                severity="error"
-                content={
-                  typeof error.message === 'object'
-                    ? error.message?.map((e: string) => <li key={e}>{e}</li>)
-                    : error.message
-                }></Message>
-            )}
-            <div className="field">
-              <span className="p-float-label">
-                <Controller
-                  name="email"
-                  control={control}
-                  rules={{
-                    required: 'Email is reauired',
-                    pattern: {
-                      value: VALID_EMAIL_PATTERN,
-                      message: 'Email is invalid',
-                    },
-                  }}
-                  render={({ field, fieldState }) => (
-                    <InputText id={field.name} {...field} />
-                  )}
-                />
-                <label
-                  htmlFor="email"
-                  className={classNames({ 'p-error': errors.email })}>
-                  Email*
-                </label>
-              </span>
-              {getFormErrorMessage('email')}
-            </div>
-            <div className="field">
-              <span className="p-float-label">
-                <Controller
-                  name="firstName"
-                  control={control}
-                  rules={{ required: 'First name is required.' }}
-                  render={({ field, fieldState }) => (
-                    <InputText id={field.name} {...field} autoFocus />
-                  )}
-                />
-                <label
-                  htmlFor="firstName"
-                  className={classNames({ 'p-error': errors.firstName })}>
-                  First Name*
-                </label>
-              </span>
-              {getFormErrorMessage('firstName')}
-            </div>
-            <div className="field">
-              <span className="p-float-label">
-                <Controller
-                  name="lastName"
-                  control={control}
-                  render={({ field }) => (
-                    <InputText id={field.name} {...field} />
-                  )}
-                />
-                <label
-                  htmlFor="lastName"
-                  className={classNames({ 'p-error': errors.lastName })}>
-                  Last Name*
-                </label>
-              </span>
-              {getFormErrorMessage('lastName')}
-            </div>
-            <div className="field">
-              <span className="p-float-label">
-                <Controller
-                  name="roles"
-                  control={control}
-                  render={({ field }) => (
-                    <MultiSelect
-                      dataKey="id"
-                      id={field.name}
-                      {...field}
-                      options={roles?.data || []}
-                      optionLabel="name"
-                      data-testid="roles"
-                    />
-                  )}
-                />
-                <label
-                  htmlFor="roles"
-                  className={classNames({ 'p-error': errors.roles })}>
-                  Roles Name*
-                </label>
-              </span>
-              {getFormErrorMessage('roles')}
-            </div>
-
-            <Controller
-              name="isActive"
-              control={control}
-              render={({ field }) => (
-                <InputSwitch
-                  id={field.name}
-                  {...field}
-                  onChange={(e) => field.onChange(e.value)}
-                  checked={field.value}
-                />
-              )}
-            />
-          </div>
-          <Button type="submit" label="Submit" className="mt-2" />
-        </form>
-      </div>
-    </Dialog>
+      isError={saveMutation.isError}
+      isSubmiting={saveMutation.isLoading}
+      error={saveMutation.error}>
+      <form onSubmit={handleSubmit(onSubmit)} className="p-fluid">
+        <div className="flex flex-column gap-3 mt-4">
+          <AppInputText
+            control={control}
+            name="email"
+            label="Email"
+            errors={errors}
+            rules={{
+              required: 'Email is required',
+              pattern: {
+                value: VALID_EMAIL_PATTERN,
+                message: 'Email is invalid',
+              },
+            }}
+          />
+          <AppInputText
+            control={control}
+            name="firstName"
+            label="First Name"
+            errors={errors}
+            rules={{ required: 'First name is required.' }}
+          />
+          <AppInputText control={control} name="lastName" label="Last Name" />
+          <AppMultSelect
+            control={control}
+            name="roles"
+            label="Roles"
+            optionLabel="name"
+            options={rolesQuery.data?.data}
+            refetch={rolesQuery.refetch}
+            isLoading={rolesQuery.isLoading}
+          />
+          <AppInputSwitch name="isActive" control={control} label="Is Active" />
+          <AppSubmitBtn />
+        </div>
+      </form>
+    </AppDialog>
   );
 };
