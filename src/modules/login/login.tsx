@@ -55,14 +55,15 @@ export default function Login() {
         style={{ backgroundColor: '#f8f9fa' }}>
         <Card className="w-11 md:w-6 lg:w-4">
           <div className="flex flex-column justify-content-start align-items-center gap-3">
-            <span className="text-lg font-medium">Login</span>
+            <span className="text-lg font-medium">Sign In</span>
             {isError && (
               <Message
+                className="w-full"
                 severity="error"
                 content="Invalid username or password"
               />
             )}
-            <div className="field w-full">
+            <div className="field w-full mt-3">
               <span className="p-float-label">
                 <Controller
                   name="email"
@@ -112,10 +113,10 @@ export default function Login() {
 
             <Button
               type="submit"
-              label="login"
+              label="Sign In"
               icon="pi pi-exit"
               disabled={isLoading}
-              className="p-button-raised w-full"
+              className="p-button-raised w-full p-button-rounded"
             />
           </div>
         </Card>

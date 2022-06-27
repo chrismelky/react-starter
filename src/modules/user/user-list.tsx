@@ -17,7 +17,6 @@ import { useAppToast } from '../shared/toast-provider';
 import { AppTable } from '../shared/app-table';
 
 export default function UserList() {
-  //Config column filters
   const initialOptionFilters: DataTableFilterMeta = {
     firstName: stringDefaultFilter,
     lastName: stringDefaultFilter,
@@ -31,24 +30,20 @@ export default function UserList() {
 
   const [showCreateOrUpdate, setShowCreateOrUpdate] = useState(false);
 
-  //Selected user to be updated or new user
   const [user, setUser] = useState<User>();
 
   const { showSuccess, showError, confirm } = useAppToast();
 
-  /** pagination option, optional filters ,
-   *  useFetchUser function observe this state and reload data when any property value is changed
-   */
   const [queryParams, setQueryParams] =
     useState<IQueryParams>(DEFAULT_QUERY_PARAMS);
 
-  const query = useFetchUsers({
+  const usersQuery = useFetchUsers({
     queryParams,
   });
 
   const deteleMutation = useDeleteUser({
     onSuccess: () => {
-      query.refetch();
+      usersQuery.refetch();
       showSuccess('User deleted successfully');
     },
     onError: () => {
@@ -66,7 +61,7 @@ export default function UserList() {
     setShowCreateOrUpdate(false);
     setUser(undefined);
     if (result) {
-      query.refetch();
+      usersQuery.refetch();
       showSuccess('User created successfully');
     }
   };
@@ -88,7 +83,7 @@ export default function UserList() {
     <div className="flex flex-column gap-3">
       <AppTable
         columns={columns}
-        query={query}
+        query={usersQuery}
         title="Users"
         queryParams={queryParams}
         initialOptionFilters={initialOptionFilters}

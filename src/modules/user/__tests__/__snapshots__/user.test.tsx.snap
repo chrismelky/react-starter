@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`UserList Render Correct 1`] = `
+exports[`UserList Should Not Be Modified 1`] = `
 <div
-  className="flex flex-column gap-2"
+  className="flex flex-column gap-3"
 >
   <div
     className="p-card p-component shadow-5 w-full"
@@ -16,14 +16,10 @@ exports[`UserList Render Correct 1`] = `
         className="p-card-content"
       >
         <div
-          className="p-datatable p-component p-datatable-responsive-stack p-datatable-sm"
+          className="p-datatable p-component p-datatable-responsive-stack p-datatable-sm w-full"
           data-scrollselectors=".p-datatable-wrapper"
           id={null}
-          style={
-            Object {
-              "width": "100%",
-            }
-          }
+          style={null}
         >
           <div
             className="p-datatable-loading-overlay p-component-overlay"
@@ -41,7 +37,7 @@ exports[`UserList Render Correct 1`] = `
               <span
                 className="text-lg"
               >
-                User
+                Users
               </span>
               <div
                 className="flex flex-row justify-content-start align-items-center gap-2"
@@ -63,7 +59,7 @@ exports[`UserList Render Correct 1`] = `
                   </span>
                 </button>
                 <button
-                  aria-label="Create User"
+                  aria-label="Create"
                   className="p-button p-component p-button-raised p-button-sm"
                   data-testid="btn-create"
                   disabled={false}
@@ -75,7 +71,7 @@ exports[`UserList Render Correct 1`] = `
                   <span
                     className="p-button-label p-c"
                   >
-                    Create User
+                    Create
                   </span>
                 </button>
               </div>
@@ -353,7 +349,7 @@ exports[`UserList Render Correct 1`] = `
                         />
                       </button>
                       <button
-                        className="p-button p-component p-button-plain p-button-rounded p-button-text p-button-icon-only p-button-sm p-button-icon-only"
+                        className="p-button p-component p-button-plain p-button-rounded p-button-danger p-button-text p-button-icon-only p-button-sm p-button-icon-only"
                         disabled={false}
                         onClick={[Function]}
                       >

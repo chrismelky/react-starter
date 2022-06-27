@@ -12,7 +12,7 @@ export const AppTableAction = ({ rowData, edit, confirmDelete }: any) => {
         />
         <Button
           icon="pi pi-trash"
-          className="p-button-plain p-button-rounded p-button-text p-button-icon-only p-button-sm"
+          className="p-button-plain p-button-rounded p-button-danger p-button-text p-button-icon-only p-button-sm"
           onClick={() => confirmDelete(rowData)}
         />
       </div>

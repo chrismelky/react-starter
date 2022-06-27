@@ -44,20 +44,20 @@ describe('UserList', () => {
     }));
   });
 
-  test('Render List of users', () => {
+  test('Should Render List', () => {
     render(<UserList />);
     const linkElement = screen.getByText(/TestFirstName/i);
     expect(linkElement).toBeInTheDocument();
   });
 
-  test('Display Create/Update Popup', () => {
+  test('Should Open Create/Update Popup', () => {
     render(<UserList />);
     fireEvent.click(screen.getByTestId('btn-create'));
     expect(screen.getByTestId(/create-update-dialog/i)).toBeInTheDocument();
     expect(screen.getByTestId(/roles/i)).toBeInTheDocument();
   });
 
-  test('Render Correct', () => {
+  test('Should Not Be Modified', () => {
     const tree = renderer.create(<UserList />).toJSON();
     expect(tree).toMatchSnapshot();
   });
