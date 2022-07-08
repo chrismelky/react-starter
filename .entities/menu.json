@@ -27,7 +27,7 @@
     "name": "router_link",
     "dbType": "string",
     "validations": "required",
-    "searchable": true
+    "searchable": false
   },
   {
     "name": "parent_id",

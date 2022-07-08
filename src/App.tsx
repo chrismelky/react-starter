@@ -15,6 +15,7 @@ import { useAppDispatch } from './config/store';
 const Dashboard = lazy(() => import('./modules/dashboard'));
 const UserList = lazy(() => import('./modules/user'));
 const RoleList = lazy(() => import('./modules/role'));
+const MenuList = lazy(() => import('./modules/menu'));
 /* ====Chrispro lazy component Generator Hook: Dont Delete==== */
 
 function App() {
@@ -46,6 +47,16 @@ function App() {
           element={
             <PrivateRouteComponent
               component={RoleList}
+              hasAnyAuthorities={[]}
+            />
+          }
+        />
+
+        <Route
+          path="/menu"
+          element={
+            <PrivateRouteComponent
+              component={MenuList}
               hasAnyAuthorities={[]}
             />
           }

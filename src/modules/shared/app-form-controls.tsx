@@ -2,6 +2,7 @@ import React from 'react';
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import { MultiSelect } from 'primereact/multiselect';
+import { Dropdown } from 'primereact/dropdown';
 import { classNames } from 'primereact/utils';
 import { Control, Controller } from 'react-hook-form';
 import { InputSwitch } from 'primereact/inputswitch';
@@ -91,6 +92,58 @@ export const AppMultSelect = ({
             rules={rules}
             render={({ field }) => (
               <MultiSelect
+                filter={true}
+                dataKey="id"
+                id={field.name}
+                {...field}
+                options={options || []}
+                optionLabel={optionLabel}
+                optionValue={optionValue}
+                data-testid={name}
+              />
+            )}
+          />
+          <label
+            htmlFor={name}
+            className={errors && classNames({ 'p-error': errors[name] })}>
+            {isLoading && 'Loading'} {label}
+          </label>
+        </span>
+        {getFormErrorMessage(name)}
+      </div>
+    </>
+  );
+};
+
+export const AppSelect = ({
+  control,
+  errors,
+  name,
+  label,
+  rules,
+  options,
+  optionLabel,
+  optionValue,
+  isLoading,
+  refetch,
+}: AppSelectProps) => {
+  const getFormErrorMessage = (name: string) => {
+    return (
+      errors &&
+      errors[name] && <small className="p-error">{errors[name].message}</small>
+    );
+  };
+
+  return (
+    <>
+      <div className="field">
+        <span className="p-float-label">
+          <Controller
+            name={name}
+            control={control}
+            rules={rules}
+            render={({ field }) => (
+              <Dropdown
                 filter={true}
                 dataKey="id"
                 id={field.name}
